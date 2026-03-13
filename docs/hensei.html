@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>戰時編制表・指揮系統 — 大日本帝國海軍</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="static-api.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>⚓ 帝國海軍 戰時編制表</h1>
+  <div class="subtitle">1941年十二月八日 — 戦局時ノ全艦隊編制及ビ指揮系統</div>
+</header>
+
+<nav>
+  <a href="index.html">總 覽</a>
+  <a href="kantei.html">艦 艇</a>
+  <a href="chinjufu.html">鎭守府</a>
+  <a href="senreki.html">戰 歷</a>
+  <a href="sentou-shouhou.html">戰鬪詳報</a>
+  <a href="koukuki.html">航空機</a>
+  <a href="heiki.html">兵 器</a>
+  <a href="hensei.html" class="active">編 制</a>
+  <a href="soshiki.html">組 織</a>
+  <a href="kaikyu.html">階 級</a>
+</nav>
+
+<main>
+
+  <!-- ━━━ 指揮系統圖 ━━━ -->
+  <section>
+    <h2>指揮系統圖</h2>
+    <p>帝國憲法第十一條ニ依リ、統帥權ハ天皇陛下ノ大權ニ屬ス。軍令（作戰）ハ軍令部總長、軍政（行政）ハ海軍大臣ガ各々輔翼ス。</p>
+
+    <div class="command-tree">
+      <div class="cmd-node cmd-emperor">
+        <div class="cmd-rank">大元帥</div>
+        <div class="cmd-name">天皇陛下</div>
+        <div class="cmd-role">陸海軍ノ統帥權ヲ總攬シ給フ</div>
+      </div>
+
+      <div class="cmd-branches">
+        <!-- 軍令系統 -->
+        <div class="cmd-branch cmd-branch-gunrei">
+          <div class="cmd-branch-label">統帥（軍令）系統</div>
+          <div class="cmd-node cmd-level1">
+            <div class="cmd-rank">海軍大將</div>
+            <div class="cmd-name">永野修身</div>
+            <div class="cmd-title">軍令部總長</div>
+            <div class="cmd-role">作戰・用兵ノ輔翼</div>
+          </div>
+
+          <div class="cmd-connector"></div>
+
+          <div class="cmd-node cmd-level2 cmd-yamamoto">
+            <div class="cmd-rank">海軍大將</div>
+            <div class="cmd-name">山本五十六</div>
+            <div class="cmd-title">聯合艦隊司令長官</div>
+            <div class="cmd-role">全戰鬪部隊ノ統率</div>
+            <div class="cmd-flag">旗艦「長門」</div>
+          </div>
+
+          <div class="cmd-connector"></div>
+
+          <div class="cmd-fleet-grid">
+            <div class="cmd-fleet-item"><strong>第一艦隊</strong><br>高須四郎 中將</div>
+            <div class="cmd-fleet-item"><strong>第二艦隊</strong><br>近藤信竹 中將</div>
+            <div class="cmd-fleet-item"><strong>第三艦隊</strong><br>高橋伊望 中將</div>
+            <div class="cmd-fleet-item"><strong>第四艦隊</strong><br>井上成美 中將</div>
+            <div class="cmd-fleet-item"><strong>第五艦隊</strong><br>細萱戊子郎 中將</div>
+            <div class="cmd-fleet-item"><strong>第六艦隊</strong><br>清水光美 中將</div>
+            <div class="cmd-fleet-item cmd-fleet-kido"><strong>第一航空艦隊</strong><br>南雲忠一 中將</div>
+            <div class="cmd-fleet-item"><strong>第十一航空艦隊</strong><br>塚原二四三 中將</div>
+            <div class="cmd-fleet-item"><strong>南遣艦隊</strong><br>小澤治三郎 中將</div>
+          </div>
+
+          <!-- 鎭守府 -->
+          <div class="cmd-sub-label" style="margin-top:1.5rem;">鎭守府・警備府（軍令部直隷）</div>
+          <div class="cmd-fleet-grid" style="margin-top:0.5rem;">
+            <div class="cmd-fleet-item cmd-fleet-chin"><strong>横須賀鎭守府</strong><br>米内光政 大將</div>
+            <div class="cmd-fleet-item cmd-fleet-chin"><strong>呉鎭守府</strong><br>豐田副武 大將</div>
+            <div class="cmd-fleet-item cmd-fleet-chin"><strong>佐世保鎭守府</strong><br>谷本馬太郎 中將</div>
+            <div class="cmd-fleet-item cmd-fleet-chin"><strong>舞鶴鎭守府</strong><br>清水光美 中將</div>
+            <div class="cmd-fleet-item cmd-fleet-chin"><strong>鎮海警備府</strong><br>阿武清 中將</div>
+            <div class="cmd-fleet-item cmd-fleet-chin"><strong>高雄警備府</strong><br>志摩清英 少將</div>
+          </div>
+        </div>
+
+        <!-- 軍政系統 -->
+        <div class="cmd-branch cmd-branch-gunsei">
+          <div class="cmd-branch-label">軍政（行政）系統</div>
+          <div class="cmd-node cmd-level1">
+            <div class="cmd-rank">海軍大將</div>
+            <div class="cmd-name">嶋田繁太郎</div>
+            <div class="cmd-title">海軍大臣</div>
+            <div class="cmd-role">軍政（行政・人事・經理）ノ輔弼</div>
+          </div>
+
+          <div class="cmd-connector"></div>
+
+          <div class="cmd-node cmd-level2">
+            <div class="cmd-rank">海軍中將</div>
+            <div class="cmd-name">澤本賴雄</div>
+            <div class="cmd-title">海軍次官</div>
+            <div class="cmd-role">海軍省事務ノ統括</div>
+          </div>
+
+          <div class="cmd-connector"></div>
+
+          <div class="cmd-fleet-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+            <div class="cmd-fleet-item cmd-fleet-bureau">軍務局</div>
+            <div class="cmd-fleet-item cmd-fleet-bureau">人事局</div>
+            <div class="cmd-fleet-item cmd-fleet-bureau">經理局</div>
+            <div class="cmd-fleet-item cmd-fleet-bureau">醫務局</div>
+            <div class="cmd-fleet-item cmd-fleet-bureau">法務局</div>
+            <div class="cmd-fleet-item cmd-fleet-bureau">艦政本部</div>
+            <div class="cmd-fleet-item cmd-fleet-bureau">航空本部</div>
+            <div class="cmd-fleet-item cmd-fleet-bureau">兵器局</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━ 聯合艦隊 編制表 ━━━ -->
+  <section>
+    <h2>聯合艦隊 全編制表</h2>
+    <p>
+      聯合艦隊司令長官 山本五十六 海軍大將（旗艦「長門」）ノ下ニ、
+      九箇艦隊ヲ統括ス。以下、各艦隊ノ編制ヲ示ス。
+    </p>
+
+    <!-- 第一艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-main">
+        <h3>第一艦隊（主力部隊）</h3>
+        <div class="fleet-commander">司令長官: 高須四郎 海軍中將 ｜ 參謀長: 小林謙五 ｜ 旗艦:「長門」</div>
+        <div class="fleet-mission">帝國海軍ノ主力部隊。戰艦ヲ主力トシ、敵主力艦隊トノ艦隊決戰ヲ以テ制海權ノ確保ヲ企圖ス。</div>
+      </div>
+      <table>
+        <thead><tr><th>戰隊名</th><th>司令官</th><th>旗艦</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第一戰隊</strong></td><td>高須四郎 中將（兼）</td><td>長門</td><td>戰艦 長門、陸奥</td></tr>
+          <tr><td><strong>第二戰隊</strong></td><td>三川軍一 中將</td><td>伊勢</td><td>戰艦 伊勢、日向、扶桑、山城</td></tr>
+          <tr><td><strong>第三戰隊</strong></td><td>三川軍一 中將（兼）</td><td>金剛</td><td>戰艦 金剛、榛名、比叡、霧島</td></tr>
+          <tr><td><strong>第六戰隊</strong></td><td>五藤存知 少將</td><td>青葉</td><td>重巡 青葉、衣笠、加古、古鷹</td></tr>
+          <tr><td><strong>第九戰隊</strong></td><td>福地誠夫 少將</td><td>北上</td><td>輕巡 北上、大井（重雷裝）</td></tr>
+          <tr><td><strong>第一水雷戰隊</strong></td><td>大森仙太郎 少將</td><td>阿武隈</td><td>輕巡 阿武隈、第6・17・21・27驅逐隊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 第二艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-advance">
+        <h3>第二艦隊（前衛部隊）</h3>
+        <div class="fleet-commander">司令長官: 近藤信竹 海軍中將 ｜ 參謀長: 白石萬隆 ｜ 旗艦:「愛宕」</div>
+        <div class="fleet-mission">重巡洋艦・水雷戰隊ヲ主力トシ、強襲偵察・敵前衛撃滅・夜戰ヲ擔當ス。</div>
+      </div>
+      <table>
+        <thead><tr><th>戰隊名</th><th>司令官</th><th>旗艦</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第四戰隊</strong></td><td>近藤信竹 中將（兼）</td><td>愛宕</td><td>重巡 愛宕、高雄、鳥海、摩耶</td></tr>
+          <tr><td><strong>第五戰隊</strong></td><td>高木武雄 少將</td><td>那智</td><td>重巡 那智、羽黒、妙高</td></tr>
+          <tr><td><strong>第七戰隊</strong></td><td>栗田健男 少將</td><td>熊野</td><td>重巡 熊野、鈴谷、三隈、最上</td></tr>
+          <tr><td><strong>第二水雷戰隊</strong></td><td>田中賴三 少將</td><td>神通</td><td>輕巡 神通、第8・15・16・18驅逐隊</td></tr>
+          <tr><td><strong>第四潜水戰隊</strong></td><td>吉富説三 少將</td><td>—</td><td>潜母 鬼怒、第18・19潜水隊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 第三艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-south">
+        <h3>第三艦隊（南方部隊）</h3>
+        <div class="fleet-commander">司令長官: 高橋伊望 海軍中將 ｜ 參謀長: 中村俊久 ｜ 旗艦:「足柄」</div>
+        <div class="fleet-mission">南方方面ノ攻略作戰ヲ擔當。某方面ノ上陸作戰支援及ビ敵艦隊撃滅ヲ任務トス。</div>
+      </div>
+      <table>
+        <thead><tr><th>戰隊名</th><th>司令官</th><th>旗艦</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第十六戰隊</strong></td><td>原顯三郎 少將</td><td>足柄</td><td>重巡 足柄、輕巡 長良、球磨</td></tr>
+          <tr><td><strong>第十七戰隊</strong></td><td>原田覺 少將</td><td>嚴島</td><td>敷設艦 嚴島、辰宮丸、掃海隊</td></tr>
+          <tr><td><strong>第三水雷戰隊</strong></td><td>橋本信太郎 少將</td><td>川内</td><td>輕巡 川内、第11・12・19・20驅逐隊</td></tr>
+          <tr><td><strong>第五潜水戰隊</strong></td><td>醍醐忠重 少將</td><td>—</td><td>第29・30潜水隊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 第四艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-south">
+        <h3>第四艦隊（南洋部隊）</h3>
+        <div class="fleet-commander">司令長官: 井上成美 海軍中將 ｜ 參謀長: 矢野英雄 ｜ 旗艦:「鹿島」</div>
+        <div class="fleet-mission">南洋群島方面ノ防備及ビ攻略。某島嶼等ノ攻略ヲ企圖ス。</div>
+      </div>
+      <table>
+        <thead><tr><th>戰隊名</th><th>司令官</th><th>旗艦</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第十八戰隊</strong></td><td>丸茂邦則 少將</td><td>天龍</td><td>輕巡 天龍、龍田</td></tr>
+          <tr><td><strong>第十九戰隊</strong></td><td>志摩清英 少將</td><td>沖島</td><td>敷設艦 沖島、津輕</td></tr>
+          <tr><td><strong>第六水雷戰隊</strong></td><td>阿部弘毅 少將</td><td>夕張</td><td>輕巡 夕張、第23・29・30驅逐隊</td></tr>
+          <tr><td><strong>南洋根據地隊</strong></td><td>井上成美 中將（兼）</td><td>—</td><td>第4・5・6根據地隊、各島守備隊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 第五艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-north">
+        <h3>第五艦隊（北方部隊）</h3>
+        <div class="fleet-commander">司令長官: 細萱戊子郎 海軍中將 ｜ 參謀長: 有馬高泰 ｜ 旗艦:「多摩」</div>
+        <div class="fleet-mission">北方方面ノ防備。北方海域ノ哨戒及ビ對某國警戒ヲ任務トス。</div>
+      </div>
+      <table>
+        <thead><tr><th>戰隊名</th><th>司令官</th><th>旗艦</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第二十一戰隊</strong></td><td>細萱戊子郎 中將（兼）</td><td>多摩</td><td>輕巡 多摩、木曾</td></tr>
+          <tr><td><strong>北方根據地隊</strong></td><td>松本毅 少將</td><td>—</td><td>大湊防備隊、北方特別根據地隊、哨戒隊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 第六艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-sub">
+        <h3>第六艦隊（潜水艦部隊）</h3>
+        <div class="fleet-commander">司令長官: 清水光美 海軍中將 ｜ 參謀長: 三戸壽 ｜ 旗艦:「香取」</div>
+        <div class="fleet-mission">帝國海軍ノ潜水艦部隊ヲ統括。敵艦隊ノ偵察・追蹤・漸減及ビ通商破壞ヲ任務トス。</div>
+      </div>
+      <table>
+        <thead><tr><th>戰隊名</th><th>司令官</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第一潜水戰隊</strong></td><td>佐藤勉 少將</td><td>潜母 靖國丸、第1・2・3潜水隊、甲標的隊（五基）</td></tr>
+          <tr><td><strong>第二潜水戰隊</strong></td><td>今和泉喜次郎 少將</td><td>第7・8潜水隊</td></tr>
+          <tr><td><strong>第三潜水戰隊</strong></td><td>三輪茂義 少將</td><td>潜母 大鯨、第11・12・20潜水隊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 第一航空艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-kido">
+        <h3>第一航空艦隊（機動部隊）</h3>
+        <div class="fleet-commander">司令長官: 南雲忠一 海軍中將 ｜ 參謀長: 草鹿龍之介 ｜ 旗艦:「赤城」</div>
+        <div class="fleet-mission">帝國海軍ノ機動航空打撃力ヲ集約。六隻ノ正規空母ヲ以テ敵艦隊及ビ基地ニ對スル航空攻撃ヲ遂行ス。</div>
+        <div class="stamp" style="display:inline-block;margin-top:0.5rem;">世界初ノ空母集中運用部隊</div>
+      </div>
+      <table>
+        <thead><tr><th>航空戰隊</th><th>司令官</th><th>旗艦</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第一航空戰隊</strong></td><td>南雲忠一 中將（兼）</td><td>赤城</td><td>空母 赤城（63機）、加賀（63機）、第7驅逐隊</td></tr>
+          <tr><td><strong>第二航空戰隊</strong></td><td>山口多聞 少將</td><td>飛龍</td><td>空母 蒼龍（63機）、飛龍（63機）</td></tr>
+          <tr><td><strong>第五航空戰隊</strong></td><td>原忠一 少將</td><td>翔鶴</td><td>空母 翔鶴（72機）、瑞鶴（72機）</td></tr>
+          <tr><td><strong>護衞部隊</strong></td><td>大森仙太郎 少將</td><td>阿武隈</td><td>戰艦 比叡・霧島、重巡 利根・筑摩、輕巡 阿武隈、驅逐艦9隻</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 第十一航空艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-air">
+        <h3>第十一航空艦隊（基地航空部隊）</h3>
+        <div class="fleet-commander">司令長官: 塚原二四三 海軍中將 ｜ 參謀長: 大西瀧治郎 ｜ 司令部: 陸上</div>
+        <div class="fleet-mission">陸上基地ヨリ發進スル陸上攻撃機・戰鬪機ヲ以テ廣範圍ノ海域ヲ制壓ス。</div>
+      </div>
+      <table>
+        <thead><tr><th>航空戰隊</th><th>司令官</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第二十一航空戰隊</strong></td><td>前田稔 少將</td><td>鹿屋航空隊（一式陸攻）、東港航空隊（水上機）</td></tr>
+          <tr><td><strong>第二十二航空戰隊</strong></td><td>松永貞市 少將</td><td>美幌航空隊（陸攻）、元山航空隊（陸攻）、第一航空隊（零戰）</td></tr>
+          <tr><td><strong>第二十三航空戰隊</strong></td><td>市丸利之助 少將</td><td>高雄航空隊（陸攻）、第三航空隊・臺南航空隊（零戰）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 南遣艦隊 -->
+    <div class="fleet-section">
+      <div class="fleet-header fleet-header-south">
+        <h3>南遣艦隊（印度洋・南西方面）</h3>
+        <div class="fleet-commander">司令長官: 小澤治三郎 海軍中將 ｜ 參謀長: 澤田虎夫 ｜ 旗艦:「鳥海」</div>
+        <div class="fleet-mission">南方某方面ノ攻略作戰ヲ支援。南方資源地帶ノ確保ヲ任務トス。</div>
+      </div>
+      <table>
+        <thead><tr><th>部隊名</th><th>司令官</th><th>旗艦</th><th>編成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>本隊</strong></td><td>小澤治三郎 中將（兼）</td><td>鳥海</td><td>重巡 鳥海、輕巡 由良・名取、第三根據地隊</td></tr>
+          <tr><td><strong>第四水雷戰隊</strong></td><td>西村祥治 少將</td><td>那珂</td><td>輕巡 那珂、第2・5・9驅逐隊</td></tr>
+          <tr><td><strong>第五水雷戰隊</strong></td><td>原顯三郎 少將（兼）</td><td>名取</td><td>輕巡 名取、第22驅逐隊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ━━━ 兵力概要 ━━━ -->
+  <section>
+    <h2>戦局時兵力概要</h2>
+    <table>
+      <thead>
+        <tr><th>艦種</th><th>隻數</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>戰艦</td><td>10隻</td><td>長門型2、伊勢型2、扶桑型2、金剛型4（大和型ハ建造中）</td></tr>
+        <tr><td>正規空母</td><td>6隻</td><td>赤城、加賀、蒼龍、飛龍、翔鶴、瑞鶴</td></tr>
+        <tr><td>輕空母</td><td>4隻</td><td>鳳翔、龍驤、瑞鳳、祥鳳</td></tr>
+        <tr><td>重巡洋艦</td><td>18隻</td><td>高雄型4、妙高型4、最上型4、古鷹型2、青葉型2、利根型2</td></tr>
+        <tr><td>輕巡洋艦</td><td>20隻</td><td>阿賀野型含マズ（建造中）</td></tr>
+        <tr><td>驅逐艦</td><td>112隻</td><td>特型・甲型・陽炎型ガ主力</td></tr>
+        <tr><td>潜水艦</td><td>65隻</td><td>伊號・呂號</td></tr>
+        <tr><td>基地航空機</td><td>約1,600機</td><td>零戰・一式陸攻・九六陸攻・九七艦攻 等</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ━━━ 通信諜報部 未確認情報綴 ━━━ -->
+  <section>
+    <h2>通信諜報部 未確認情報綴 <span class="stamp">機密</span></h2>
+    <p>
+      軍令部第三部第五課（通信諜報）ニ於テ傍受又ハ收集セシ出所不明ノ通信情報ヲ左ニ綴ル。
+      何レモ信憑性乏シク、誤報、怪電波又ハ敵ノ謀略電波ト認ム。
+      作戰用兵上ノ參考ニ供シ得ズ。閲覽後ハ所定ノ手續ニ依リ保管スベシ。
+    </p>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇一號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>1942年某月某日</td></tr>
+          <tr><td><strong>發信元</strong></td><td>某方面哨戒部隊</td></tr>
+          <tr><td><strong>件名</strong></td><td>所屬不明ノ大型艦艇發見ニ關スル件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              某海域ニ於テ所屬不明ノ艦艇一隻ヲ視認ス。推定排水量七千噸級、速力三十節以上。
+              艦型ハ帝國海軍及ビ列強何レノ艦型錄ニモ該當セズ。
+              艦橋上部ニ板狀ノ大型構造物ヲ裝備シ、砲熕ハ小口徑ナルモ飛翔體ヲ發射シ航空機ヲ撃墜セシト報ズ。
+              乘員ハ日本語ヲ使用スルモ「<strong>海上自衞隊</strong>」ナル所屬ヲ稱ス。
+              艦名ハ「未来」ト聽取セリ。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>該當艦艇ハ帝國海軍艦籍ニ存在セズ。「自衞隊」ナル組織ハ海軍省・陸軍省何レノ記錄ニモ無シ。哨戒員ノ疲勞ニ因ル誤認ト判定ス。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇二號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>1941年十二月某日</td></tr>
+          <tr><td><strong>發信元</strong></td><td>某方面派遣潜水艦</td></tr>
+          <tr><td><strong>件名</strong></td><td>某國西海岸ニ於ケル我潜水艦ノ行動ニ關スル件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              我潜水艦一隻ガ某國西海岸某都市附近ニ浮上、沿岸施設ヲ砲撃セリトノ通信ヲ傍受ス。
+              然ルニ目標ノ選定ニ誤リアリ、砲彈ハ<strong>遊園地ノ觀覽車</strong>ニ命中セリト云フ。
+              之ニ起因シ沿岸ニ混亂ヲ生ジ、某國陸海軍ガ相互ニ同士討チヲ爲ス。
+              戰車部隊ガ遊園地ヲ轢破シ、某將軍ハ味方機ヲ擊墜セシト報ズ。
+              潜水艦長ヨリ「此ノ國ハ狂ツテヲル」トノ所感電報アリト附記ス。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>該當日ニ某國方面ニ行動セシ我潜水艦ナシ。内容ハ敵國ノ宣傳映畫ノ筋書ト酷似ス。謀略ト判定、以後不取上。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇三號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>1942年某月</td></tr>
+          <tr><td><strong>發信元</strong></td><td>軍令部第三部</td></tr>
+          <tr><td><strong>件名</strong></td><td>所屬不明ノ超大型潜水艦ニ關スル件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              某方面ニ於テ我艦籍ニ無キ大型潜水艦ヲ探知ス。推定排水量一萬噸超。
+              <strong>航空機ヲ多數搭載</strong>シ、水中ヨリ飛翔體ヲ發射スル能力ヲ有スルト云フ。
+              秘匿名稱「紺碧」。指揮官ハ前世ノ記憶ヲ有スル某提督ニシテ、
+              此ノ記憶ニ基ヅキ作戰指導ヲ行フト報ゼラル。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>排水量一萬噸超ノ潜水艦ハ現行技術ニテ建造不能。水中飛翔體發射モ同斷。「前世ノ記憶」ニ至リテハ論評ニ値セズ。通信員ノ過勞ニ因ル幻聽ト推定ス。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇四號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>不詳</td></tr>
+          <tr><td><strong>發信元</strong></td><td>出所不明ノ怪電波</td></tr>
+          <tr><td><strong>件名</strong></td><td>某國ト共同建造セル潜水艦ノ叛亂ニ關スル件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              帝國海軍ガ某國ト共同ニテ<strong>新動力推進ノ潜水艦</strong>（艦名「大和」）ヲ建造セリト云フ。
+              該艦ハ公試運轉中、艦長以下乘員ノ獨斷ヲ以テ獨立國家ヲ宣言シ逃走。
+              艦長ハ沈默ヲ守ルコトヲ以テ自國ノ存在ヲ主張セリト報ズ。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>帝國海軍ガ某國ト共同ニテ艦艇ヲ建造スル事實ナシ。「大和」ノ艦名ヲ潜水艦ニ附スルコトモ有リ得ズ。全文不採用。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇五號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>不詳</td></tr>
+          <tr><td><strong>發信元</strong></td><td>某海域ヨリ受信セル怪電波</td></tr>
+          <tr><td><strong>件名</strong></td><td>某國ヨリ鹵獲セシ潜水艦ノ特殊兵器ニ關スル件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              我軍ガ某國ヨリ鹵獲セシ潜水艦ニ「<strong>ローレライ</strong>」ト呼稱スル特殊音響兵器搭載サレ居ルト云フ。
+              該兵器ハ海中ノ一切ノ音響ヲ分析シ、敵艦ノ位置ノミナラズ乘員ノ心拍數ヲモ感知シ得ルト報ズ。
+              但シ操作ニハ特殊ナル感覺ヲ有スル少女ヲ要スト附記ス。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>心拍數ヲ探知スル音響兵裝ハ物理的ニ不可能。婦女子ヲ以テ兵器ヲ操作セシムル軍制ハ列強何レノ海軍ニモ存在セズ。全文棄却ス。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇六號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>不詳</td></tr>
+          <tr><td><strong>發信元</strong></td><td>某方面ヨリ傍受セシ怪電波</td></tr>
+          <tr><td><strong>件名</strong></td><td>戰艦「大和」ノ改造ニ關スル件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              建造中ノ戰艦「大和」ガ將來<strong>宇宙航行用ニ改造</strong>サルルト云フ。
+              某星ヨリ飛來セシ異星人ノ技術ヲ以テ「波動機關」ナル推進裝置ヲ搭載、
+              十四萬八千光年彼方ノ星ヘ航行スルト報ズ。
+              主砲ハ「波動砲」ナル兵器ニ換裝、一射ニテ艦隊ヲ殲滅シ得ルト云フ。
+              乘員ハ百餘名。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>「大和」ハ現ニ呉海軍工廠ニテ建造中ノ最重要機密艦ナリ。本艦ニ關スル情報ガ部外ニ流出セシコト自體、重大ナル保全上ノ問題ナリ。宇宙云々ハ論外ナルモ、艦名漏洩ノ經路ニ付キ防諜上ノ調査ヲ要ス。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇七號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>不詳</td></tr>
+          <tr><td><strong>發信元</strong></td><td>出所不明</td></tr>
+          <tr><td><strong>件名</strong></td><td>帝國海軍艦艇ガ人型ヲ取リ出現セシ件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              帝國海軍ノ艦艇ガ「<strong>艦娘</strong>」ナル少女ノ姿ヲ取リテ出現、
+              「提督」ト稱スル指揮官ノ下ニ集結シ居ルト云フ。
+              各人ハ艦名ヲ稱シ、武裝ヲ身ニ帶ビテ海上ヲ走行、「深海棲艦」ナル敵ト交戰スト報ズ。
+              戰艦「長門」「陸奥」ヨリ驅逐艦「島風」「雪風」ニ至ル迄、艦籍上ノ全艦ガ對象ナリト云フ。
+              附記トシテ、空母「赤城」ニ該當スル者ハ糧食消費量甚大ナリトアリ。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>軍艦ガ人型ヲ取ルトノ報告ハ前例ナシ。情報價値皆無ト認ム。但シ帝國海軍ノ艦名ガ多數列擧サレ居ル點ニ付キ、敵側ガ我方艦隊編制ヲ把握シ居ル可能性ヲ否定シ得ズ。情報漏洩ノ觀點ヨリ監視ヲ繼續ス。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇八號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>不詳</td></tr>
+          <tr><td><strong>發信元</strong></td><td>某外國通信ヨリ傍受</td></tr>
+          <tr><td><strong>件名</strong></td><td>帝國海軍艦艇ガ外國海軍ト混合編成サレ居ル件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              前號ト類似。帝國海軍艦艇ガ人型ヲ取ルノミナラズ、<strong>英米佛獨ノ艦船ト混合編成</strong>サレ、
+              共同作戰ヲ行ヒ居ルト云フ。帝國艦船ハ「重櫻」ナル符牒ノ下ニ分類サレ、
+              英國艦船ハ「ロイヤル」——流石ハ我ガ師タル Royal Navy ノ名ヲ冠ス——、某國艦船ハ「ユニオン」ト各々分類サルト報ズ。
+              「指揮官」ナル者ガ國籍ヲ問ハズ自在ニ編成ヲ行フト云フ。
+              一部ノ者ハ獸耳及ビ尾ヲ有スト附記ス。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>帝國海軍ノ艦艇ガ外國海軍ノ指揮下ニ入ルコトハ統帥權ノ獨立ニ照ラシ有リ得ズ。前號ト同系統ノ謀略情報ト認メ、不採用トス。「重櫻」「ロイヤル」等ノ符牒ハ敵側ノ情報分類體系ヲ示唆スル可能性アリ、記錄ニ留ム。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="shouhou" style="border-color: var(--navy-red);">
+      <div class="shouhou-header">
+        <h3>未確認情報 第〇九號</h3>
+        <span class="stamp">誤報</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td style="width:120px;"><strong>受信日時</strong></td><td>不詳</td></tr>
+          <tr><td><strong>發信元</strong></td><td>某方面偵察哨</td></tr>
+          <tr><td><strong>件名</strong></td><td>山口少將ニ關スル虚報ノ件</td></tr>
+          <tr><td><strong>要旨</strong></td>
+            <td>
+              現任某部隊司令官<strong>山口多聞少將</strong>ニ關シ左ノ情報ヲ入手セリ。
+              同少將ハ將來某海戰ニ於テ某空母艦上ニテ戰死ノ後、
+              「漂流者」トシテ未知ノ世界ニ送ラレ、同地ニテ戰鬪ヲ繼續シ居ルト云フ。
+              同地ニハ島津義弘公、織田右府信長公、那須與一宗高等ノ歴史上ノ人物モ同樣ニ送ラレ居リ、
+              山口少將ハ近代海軍ノ知識ヲ以テ航空兵力ノ運用及ビ艦砲射撃ヲ指導シ居ルト報ズ。
+              敵方ニモ「廢棄者」ナル勢力アリ。
+            </td>
+          </tr>
+          <tr><td><strong>所見</strong></td><td>山口少將ハ現ニ某部隊司令官トシテ在職中ナリ。現任將官ノ戰死ヲ云々スルハ利敵行爲ニ該當ス。本件ハ我軍ノ士氣ヲ沮喪セシムル目的ノ謀略ト判定ス。發信經路ノ究明ヲ要ス。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="text-align:center; color:#999; font-size:0.8rem; margin-top:1.5rem;">
+      — 以上、未確認情報綴（甲）終 —<br>
+      本綴ハ軍機保護法ニ依リ嚴重保管ノコト。
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="seal">⚓ 大日本帝國海軍省 廣報部 ⚓</div>
+  <div>Imperial Japanese Navy — Public Information Bureau</div>
+  <div style="margin-top:0.5rem;">1941年十二月 發行</div>
+</footer>
+
+</body>
+</html>

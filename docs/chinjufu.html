@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鎭守府情報 — 大日本帝國海軍 廣報部</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="static-api.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>🏯 帝國海軍 鎭守府情報</h1>
+  <div class="subtitle">Imperial Japanese Navy — Naval Districts</div>
+</header>
+
+<nav>
+  <a href="index.html">總 覽</a>
+  <a href="kantei.html">艦 艇</a>
+  <a href="chinjufu.html" class="active">鎭守府</a>
+  <a href="senreki.html">戰 歷</a>
+  <a href="sentou-shouhou.html">戰鬪詳報</a>
+  <a href="koukuki.html">航空機</a>
+  <a href="heiki.html">兵 器</a>
+  <a href="hensei.html">編 制</a>
+  <a href="soshiki.html">組 織</a>
+  <a href="kaikyu.html">階 級</a>
+</nav>
+
+<main>
+
+  <section>
+    <h2>帝國海軍 鎭守府制度</h2>
+    <p>
+      鎭守府ハ帝國海軍ノ根據地トシテ、管轄海面ノ防備、
+      所屬艦隊ノ後方支援、艦艇ノ建造修理、將兵ノ教育訓練ヲ統括スル地方機關ナリ。
+      1884年ノ鎭守府條例ニ依リ制度化サレ、
+      帝國海軍ハ四大鎭守府ト二要港部ヲ以テ本土ノ海防ヲ萬全ナラシム。
+    </p>
+  </section>
+
+  <!-- ━━━ 鎭守府一覽カード ━━━ -->
+  <section>
+    <h2>鎭守府及ビ要港部 一覽</h2>
+    <div class="chinjufu-grid" id="chinjufu-grid">
+      <div class="chinjufu-card"><p>讀込中…</p></div>
+    </div>
+  </section>
+
+  <!-- ━━━ 各鎭守府詳細 ━━━ -->
+  <div id="chinjufu-details">
+  </div>
+
+</main>
+
+<footer>
+  <div class="seal">⚓ 大日本帝國海軍省 廣報部 ⚓</div>
+  <div>Imperial Japanese Navy — Public Information Bureau</div>
+  <div style="margin-top:0.5rem;">1905年 發行</div>
+</footer>
+
+<script>
+(async function() {
+  try {
+    var res = await fetch('/api/chinjufu');
+    var data = await res.json();
+    var grid = document.getElementById('chinjufu-grid');
+    var details = document.getElementById('chinjufu-details');
+    grid.innerHTML = '';
+    details.innerHTML = '';
+
+    data.navalDistricts.forEach(function(d) {
+      // カード
+      var card = document.createElement('div');
+      card.className = 'chinjufu-card';
+      card.innerHTML = '<h4>' + d.name + '</h4>'
+        + '<div class="est">' + d.established + '設置</div>'
+        + '<div class="desc">' + d.navalDistrict + '</div>';
+      grid.appendChild(card);
+
+      // 詳細セクション
+      var section = document.createElement('section');
+      section.innerHTML = '<h2>' + d.name + '（' + d.nameReading + '）</h2>'
+        + '<div class="shouhou">'
+        + '<div class="shouhou-header"><h3>' + d.name + ' 概要</h3></div>'
+        + '<table><tbody>'
+        + '<tr><td><strong>所在地</strong></td><td>' + d.location + '</td></tr>'
+        + '<tr><td><strong>設置</strong></td><td>' + d.established + '</td></tr>'
+        + '<tr><td><strong>海軍區</strong></td><td>' + d.navalDistrict + '</td></tr>'
+        + '<tr><td><strong>管轄</strong></td><td>' + d.jurisdiction + '</td></tr>'
+        + '<tr><td><strong>海軍工廠</strong></td><td>' + d.arsenal + '</td></tr>'
+        + '<tr><td><strong>附屬施設</strong></td><td>' + d.facilities.join('、') + '</td></tr>'
+        + '</tbody></table>'
+        + '<h3>沿革</h3><p>' + d.history + '</p>'
+        + '</div>';
+      details.appendChild(section);
+    });
+  } catch (e) {
+    console.warn('⚓ 鎭守府データノ取得ニ失敗セリ:', e);
+  }
+})();
+</script>
+
+</body>
+</html>

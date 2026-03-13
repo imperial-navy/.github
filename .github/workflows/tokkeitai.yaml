@@ -1,0 +1,267 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                                                              ║
+# ║  海軍特別警察隊（特警隊） — 符牒審査 (code review)・防諜 pipeline  ║
+# ║  Tokkeitai Code Inspection — 海秘第〇〇一号                 ║
+# ║                                                              ║
+# ║  根據法令:                                                   ║
+# ║    海軍刑法（1908年法律第四十八号）                     ║
+# ║    海軍懲罰令（1888年勅令第八十一号）                  ║
+# ║    軍機保護法（1899年法律第四十九号）                   ║
+# ║    國防保安法（1941年法律第四十九号）                   ║
+# ║                                                              ║
+# ║  管轄: 海軍大臣 — @Imperial-navy 直屬                        ║
+# ║  任務: 通信保安・防諜・軍紀取締                              ║
+# ║                                                              ║
+# ║  海軍特別警察隊（特警隊/Tokkeitai）ハ1941年ニ設立     ║
+# ║  サレタル海軍ノ軍事警察機關ナリ。                             ║
+# ║  占領地及ビ海軍施設ニ於ケル軍紀維持・防諜ノ任ニ當ル。       ║
+# ║                                                              ║
+# ║  專管事項（他ノ機關ト管轄ヲ峻別ス）:                         ║
+# ║    一、符牒審査 (code review) — 通信保安（console.log）/ 型紀律（any 型）  ║
+# ║    二、防諜審査 — 不審ファイル・機密漏洩ノ検知               ║
+# ║                                                              ║
+# ║  管轄外（他ノ機關ガ擔フ事項）:                               ║
+# ║    ・人事管理・部外者處分 → 軍務局（gunmukyoku.yaml）         ║
+# ║    ・思想取締・危險文書   → 特高（tokko-police.yaml）        ║
+# ║    ・作戰審議（PR review）→ 軍令部（gunreibu.yaml）         ║
+# ║    ・建造・掛載（Build）  → 工廠（koushou.yaml）            ║
+# ║                                                              ║
+# ║  本 Repository ハ風刺的創作物（satirical project）ナリ。     ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+name: ⚓ 海軍特警隊 符牒審査 (code review)
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - '**.ts'
+      - '**.js'
+      - '**.json'
+
+permissions:
+  contents: read
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # ⚓ 海軍 符牒審査 (code review)（通信保安・型紀律・機密漏洩）
+  #    管轄: 海軍特別警察隊
+  #    審査: 無許可通信（console.log）/ 型紀律（any 型）/ 機密漏洩
+  #    ※ 身元調査ハ軍務局（gunmukyoku.yaml）ノ管轄ニ移管濟
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  kaigun-shinsa:
+    name: ⚓ 海軍 符牒審査 (code review)
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.author_association != 'OWNER'
+    steps:
+      - name: 📥 軍艦旗掲揚（チェックアウト）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: ⚓ 海軍特警隊 符牒審査 (code review)
+        run: |
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  海秘                              海軍省特別警察隊  │"
+          echo "│                                                      │"
+          echo "│           符 牒 審 査 報 告 書                       │"
+          echo "│                                                      │"
+          echo "│  事件番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  被審査者: ${{ github.actor }}                       │"
+          echo "│  擔當:     海軍特別警察隊                             │"
+          echo "│  適用法令: 海軍刑法 / 海軍懲罰令                     │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+
+          VIOLATIONS=0
+          DIFF_CONTENT=$(git diff HEAD~1 -- '*.ts' '*.js' 2>/dev/null || echo "")
+          ADDED_LINES=$(echo "$DIFF_CONTENT" | grep -E '^\+' | grep -v '^\+\+\+' || echo "")
+
+          # ━━━ 軍紀第一: 無許可通信（console.log = 平文無線送信） ━━━
+          echo "【軍紀第一】無許可通信（console.log）ノ審査..."
+          echo "  海軍ニ於テ通信保安ハ最重要事項ナリ。"
+          echo "  console.log ハ平文ノ無線送信ニ等シク、敵ニ傍受サルル。"
+          echo ""
+          CONSOLE_HITS=$(echo "$ADDED_LINES" | grep -cE 'console\.(log|warn|error|debug|info)\s*\(' || echo "0")
+          if [ "$CONSOLE_HITS" -gt 0 ]; then
+            echo "  ⚠ 違反！ 無許可通信 ${CONSOLE_HITS} 件ヲ傍受。"
+            echo "    帝國海軍ノ正規通信經路ハ暗號通信（logger）ナリ。"
+            echo "    console.log ハ暗號化ナキ平文通信ニシテ、"
+            echo "    敵性勢力ノ無線傍受ニ依リ機密漏洩ノ虞アリ。"
+            echo "    海軍暗號規程ニ從ヒ logger.info / logger.warn / logger.error ヲ使用セヨ。"
+            echo "    海軍刑法第三十三條（軍機漏洩）ニ該當ス。"
+            echo "    危險度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  異常ナシ。通信ハ正規經路ヲ使用。暗號化通信維持。"
+          fi
+
+          echo ""
+
+          # ━━━ 軍紀第二: 型紀律違反（any 型 = 兵裝ノ不整備） ━━━
+          echo "【軍紀第二】型紀律（any 型ノ使用）ノ審査..."
+          echo "  海軍ニ於テ精密ナル型宣言ハ艦艇運用ノ基本ナリ。"
+          echo "  any 型ハ型ノ脱走兵ニシテ、兵裝ノ不整備ニ等シ。"
+          echo ""
+          ANY_HITS=$(echo "$ADDED_LINES" | grep -cE '(:\s*any\b|as\s+any\b)' || echo "0")
+          if [ "$ANY_HITS" -gt 0 ]; then
+            echo "  ⚠ 違反！ any 型 ${ANY_HITS} 件ノ使用ヲ現認。"
+            echo "    strict: true ハ軍令部作戰命令ナリ。違反ハ抗命罪ニ相當ス。"
+            echo "    any 型ハ型ノ脱走兵ニシテ、艦艇ノ戰鬪力ヲ著シク低下セシム。"
+            echo "    適切ナル型ヲ宣言シ、艦ノ整備ヲ怠ルナカレ。"
+            echo "    海軍刑法第四十四條（職務怠慢）ニ該當ス。"
+            echo "    危險度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  異常ナシ。型紀律ハ遵守サレテ在リ。艦ノ整備状態良好。"
+          fi
+
+          echo ""
+
+          # ━━━ 軍紀第三: 機密漏洩（.env / secret / key 混入） ━━━
+          echo "【軍紀第三】機密漏洩（秘密文書混入）ノ審査..."
+          echo "  機密書類ノ流出ハ帝國海軍ノ存亡ニ關ハル重大事案ナリ。"
+          echo ""
+          DIFF_ALL=$(git diff HEAD~1 2>/dev/null || echo "")
+          SECRET_HITS=$(echo "$DIFF_ALL" | grep -cE '(API_KEY|SECRET|PASSWORD|TOKEN|PRIVATE_KEY)\s*[=:]' || echo "0")
+          ENV_FILES=$(git diff --name-only HEAD~1 2>/dev/null | grep -cE '\.env' || echo "0")
+          TOTAL_SECRET=$((SECRET_HITS + ENV_FILES))
+          if [ "$TOTAL_SECRET" -gt 0 ]; then
+            echo "  ⚠ 違反！ 機密情報ノ混入 ${TOTAL_SECRET} 件ヲ現認。"
+            echo "    秘密文書（.env / API_KEY / SECRET 等）ノ commit ハ"
+            echo "    軍機保護法・國防保安法違反ニ該當シ、極刑ヲ以テ處斷サルベシ。"
+            echo "    即刻當該 commit ヲ取消シ、secret ヲ rotate セヨ。"
+            echo "    海軍刑法第三十一條（軍機漏洩ノ罪）ニ該當ス。"
+            echo "    危險度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  異常ナシ。機密書類ノ流出ナシ。防諜態勢良好。"
+          fi
+
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo ""
+            echo "【審査結果】 軍紀違反 ${VIOLATIONS} 件ヲ現認。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  罪狀:   軍紀違反（${VIOLATIONS} 件）              │"
+            echo "  │  根據:   海軍刑法 / 海軍懲罰令            │"
+            echo "  │  處分:   CI 不通過                        │"
+            echo "  │  擔當:   @tokkeitai-bot                  │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "符牒ヲ修正シ、再度審査ニ附スベシ。"
+            echo "修正ノ上、海軍省法務局ノ許可ヲ得テ再提出セヨ。"
+            exit 1
+          else
+            echo ""
+            echo "【審査結果】 異常ナシ。海軍軍紀ハ良好ナリ。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  審査結果: 合格                            │"
+            echo "  │  擔當:     @tokkeitai-bot                 │"
+            echo "  └───────────────────────────────────────────┘"
+          fi
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 🔍 防諜審査（敵性工作員ノ潛伏捜索）
+  #    管轄: 海軍省法務局 / 特別警察隊
+  #    任務: 不審ファイル・敵性スクリプトノ潛伏捜索
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  kaigun-bocho:
+    name: 🔍 防諜審査
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.author_association != 'OWNER'
+    steps:
+      - name: 📥 軍艦旗掲揚（チェックアウト）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 🔍 防諜審査（不審ファイル潛伏捜索）
+        run: |
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  海秘                              海軍省特別警察隊  │"
+          echo "│                                                      │"
+          echo "│           防 諜 審 査 報 告 書                       │"
+          echo "│                                                      │"
+          echo "│  事件番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  被審査者: ${{ github.actor }}                       │"
+          echo "│  擔當:     防諜班                                     │"
+          echo "│  適用法令: 海軍刑法 / 軍機保護法 / 國防保安法         │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+
+          VIOLATIONS=0
+
+          # ━━━ 防諜第一: 不審ナル實行ファイルノ潛伏捜索 ━━━
+          echo "【防諜第一】不審ファイルノ潛伏捜索..."
+          echo "  敵性工作員（不審スクリプト）ノ潛入ヲ警戒ス。"
+          echo ""
+
+          SUSPICIOUS_FILES=$(find . -type f \
+            -not -path './.git/*' \
+            -not -path './node_modules/*' \
+            \( -name '*.sh' -o -name '*.exe' -o -name '*.bat' -o -name '*.ps1' \) \
+            2>/dev/null || echo "")
+
+          DIFF_FILES=$(git diff --name-only HEAD~1 2>/dev/null || echo "")
+          NEW_SUSPICIOUS=$(echo "$DIFF_FILES" | grep -E '\.(sh|exe|bat|ps1)$' || echo "")
+
+          if [ -n "$NEW_SUSPICIOUS" ]; then
+            echo "  ⚠ 警告！ 不審ナル實行ファイルノ追加ヲ現認。"
+            echo ""
+            echo "  潛伏先一覽:"
+            echo "$NEW_SUSPICIOUS" | while read -r f; do [ -n "$f" ] && echo "    ・$f"; done
+            echo ""
+            echo "  不審スクリプトハ敵性工作員ノ潛伏ニ等シ。"
+            echo "  海軍刑法第三十五條（間諜行爲）ニ該當スル虞アリ。"
+            echo "    危險度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  異常ナシ。不審ファイルノ潛伏ナシ。艦內掃蕩完了。"
+          fi
+
+          echo ""
+
+          # ━━━ 防諜第二: .gitignore 改竄ノ檢知 ━━━
+          echo "【防諜第二】.gitignore 改竄ノ審査..."
+          echo "  .gitignore ハ機密文書管理ノ要ナリ。改竄ハ機密漏洩ニ直結ス。"
+          echo ""
+
+          if echo "$DIFF_FILES" | grep -q '.gitignore'; then
+            echo "  ⚠ 警告！ .gitignore ノ變更ヲ現認。"
+            echo "    機密文書管理規程ノ變更ハ海軍省法務局ノ承認ヲ要ス。"
+            echo "    危險度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  異常ナシ。機密文書管理規程ニ變更ナシ。"
+          fi
+
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo ""
+            echo "【審査結果】 不審事項 ${VIOLATIONS} 件ヲ現認。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  罪狀:   防諜違反（${VIOLATIONS} 件）              │"
+            echo "  │  根據:   海軍刑法 / 軍機保護法 / 國防保安法            │"
+            echo "  │  處分:   CI 不通過                        │"
+            echo "  │  擔當:   @tokkeitai-bot（防諜班）        │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "不審事項ヲ解消シ、再度審査ニ附スベシ。"
+            exit 1
+          else
+            echo ""
+            echo "【審査結果】 異常ナシ。艦內ニ敵性工作員ノ潛伏ナシ。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  審査結果: 合格                            │"
+            echo "  │  擔當:     @tokkeitai-bot（防諜班）      │"
+            echo "  └───────────────────────────────────────────┘"
+          fi

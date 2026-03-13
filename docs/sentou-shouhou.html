@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>戰鬪詳報 — 大日本帝國海軍 廣報部</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="static-api.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>📋 帝國海軍 戰鬪詳報</h1>
+  <div class="subtitle">Imperial Japanese Navy — Battle Reports</div>
+</header>
+
+<nav>
+  <a href="index.html">總 覽</a>
+  <a href="kantei.html">艦 艇</a>
+  <a href="chinjufu.html">鎭守府</a>
+  <a href="senreki.html">戰 歷</a>
+  <a href="sentou-shouhou.html" class="active">戰鬪詳報</a>
+  <a href="koukuki.html">航空機</a>
+  <a href="heiki.html">兵 器</a>
+  <a href="hensei.html">編 制</a>
+  <a href="soshiki.html">組 織</a>
+  <a href="kaikyu.html">階 級</a>
+</nav>
+
+<main>
+
+  <section>
+    <h2>戰鬪詳報ニ就イテ</h2>
+    <p>
+      戰鬪詳報ハ、各海戰ニ於ケル作戰經過、戰果、損害及ビ所見ヲ
+      詳細ニ記錄セシ公式報告書ナリ。
+      各艦長及ビ戰隊司令官ヨリ軍令部ニ上申セシ報告ヲ基ニ、
+      海軍省廣報部ニ於テ編纂セリ。
+    </p>
+  </section>
+
+  <div id="reports-container">
+    <section><p>戰鬪詳報讀込中…</p></section>
+  </div>
+
+  <!-- ━━━ 投稿案内 ━━━ -->
+  <section>
+    <h2>戰鬪詳報 投稿要領</h2>
+    <p>
+      各艦長及ビ戰隊司令官ハ、作戰終了後速ヤカニ戰鬪詳報ヲ起案シ、
+      軍令部ニ上申スベシ。戰鬪詳報ノ起票ハ以下ノ Issue テンプレートヲ使用スルコト。
+    </p>
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>テンプレート</strong></td>
+          <td><a href="https://github.com/imperial-navy/.github/issues/new?template=sentou_shouhou.md">戰鬪詳報（Issue テンプレート）</a></td>
+        </tr>
+        <tr>
+          <td><strong>必須項目</strong></td>
+          <td>作戰名、參加部隊、戰果及ビ被害、所見</td>
+        </tr>
+        <tr>
+          <td><strong>提出先</strong></td>
+          <td>海軍軍令部 作戰課</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  <div class="seal">⚓ 大日本帝國海軍省 廣報部 ⚓</div>
+  <div>Imperial Japanese Navy — Public Information Bureau</div>
+  <div style="margin-top:0.5rem;">1905年 發行</div>
+</footer>
+
+<script>
+(async function() {
+  try {
+    var res = await fetch('/api/battles');
+    var data = await res.json();
+    var container = document.getElementById('reports-container');
+    container.innerHTML = '';
+
+    data.battles.forEach(function(b) {
+      var section = document.createElement('section');
+      var h2 = document.createElement('h2');
+      h2.textContent = b.name + ' 戰鬪詳報';
+      section.appendChild(h2);
+
+      var div = document.createElement('div');
+      div.className = 'shouhou';
+
+      var stamp = (b.name === '日本海海戰') ? ' <span class="stamp">機密</span>' : '';
+      var html = '<div class="shouhou-header"><h3>戰 鬪 詳 報' + stamp + '</h3></div>';
+      html += '<table><tbody>';
+      html += '<tr><td><strong>作戰名</strong></td><td>' + b.name + '</td></tr>';
+      html += '<tr><td><strong>日時</strong></td><td>' + b.date + '</td></tr>';
+      html += '<tr><td><strong>海域</strong></td><td>' + b.location + '</td></tr>';
+      if (b.weather) {
+        html += '<tr><td><strong>天候</strong></td><td>' + b.weather + '</td></tr>';
+      }
+      html += '<tr><td><strong>我方指揮官</strong></td><td>' + b.japaneseCommander + '</td></tr>';
+      html += '<tr><td><strong>旗艦</strong></td><td>' + b.japaneseFlagship + '</td></tr>';
+      html += '<tr><td><strong>我方兵力</strong></td><td>' + b.japaneseForces + '</td></tr>';
+      html += '<tr><td><strong>敵兵力</strong></td><td>' + b.enemyForces + '</td></tr>';
+      html += '<tr><td><strong>結果</strong></td><td>' + b.result + '</td></tr>';
+      html += '</tbody></table>';
+
+      // 戰果及ビ被害
+      if (b.casualties) {
+        html += '<h3>戰果及ビ被害</h3><table><tbody>';
+        var c = b.casualties;
+        if (c.enemySunk) html += '<tr><td><strong>敵艦撃沈</strong></td><td>' + c.enemySunk + '</td></tr>';
+        if (c.enemyCaptured) html += '<tr><td><strong>敵艦鹵獲</strong></td><td>' + c.enemyCaptured + '</td></tr>';
+        if (c.enemyDamaged) html += '<tr><td><strong>敵艦損傷</strong></td><td>' + c.enemyDamaged + '</td></tr>';
+        if (c.japaneseLosses) html += '<tr><td><strong>我方損害</strong></td><td>' + c.japaneseLosses + '</td></tr>';
+        if (c.japaneseKilled !== undefined) html += '<tr><td><strong>我方戰死</strong></td><td>' + c.japaneseKilled + '名</td></tr>';
+        if (c.enemyKilled !== undefined) html += '<tr><td><strong>敵戰死</strong></td><td>' + c.enemyKilled + '名</td></tr>';
+        html += '</tbody></table>';
+      }
+
+      // 所見
+      html += '<h3>所見</h3><p>' + b.significance + '</p>';
+
+      div.innerHTML = html;
+      section.appendChild(div);
+      container.appendChild(section);
+    });
+  } catch (e) {
+    console.warn('⚓ 戰鬪詳報データノ取得ニ失敗セリ:', e);
+  }
+})();
+</script>
+
+</body>
+</html>

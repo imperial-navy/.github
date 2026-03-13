@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>組織情報 — 大日本帝國海軍 廣報部</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="static-api.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>🏛 帝國海軍 組織情報</h1>
+  <div class="subtitle">Imperial Japanese Navy — Organization</div>
+</header>
+
+<nav>
+  <a href="index.html">總 覽</a>
+  <a href="kantei.html">艦 艇</a>
+  <a href="chinjufu.html">鎭守府</a>
+  <a href="senreki.html">戰 歷</a>
+  <a href="sentou-shouhou.html">戰鬪詳報</a>
+  <a href="koukuki.html">航空機</a>
+  <a href="heiki.html">兵 器</a>
+  <a href="hensei.html">編 制</a>
+  <a href="soshiki.html" class="active">組 織</a>
+  <a href="kaikyu.html">階 級</a>
+</nav>
+
+<style>
+  .org-field { margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(139,115,85,0.2); }
+  .org-field:last-child { border-bottom: none; margin-bottom: 0; }
+  .org-field-label { color: var(--navy-blue); font-weight: bold; font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+  .org-field-value { font-size: 0.9rem; line-height: 1.6; }
+  .org-sub-list { margin: 0.5rem 0 0; padding-left: 0; list-style: none; }
+  .org-sub-item { background: rgba(26,54,93,0.04); border-left: 3px solid var(--navy-blue); padding: 0.5rem 0.8rem; margin-bottom: 0.5rem; border-radius: 0 4px 4px 0; }
+  .org-sub-item-name { font-weight: bold; color: var(--navy-dark); }
+  .org-sub-item-en { font-size: 0.8rem; color: #666; }
+  .org-sub-item-role { font-size: 0.85rem; margin-top: 0.2rem; }
+  .org-subsub-list { margin: 0.4rem 0 0; padding-left: 0; list-style: none; }
+  .org-subsub-item { font-size: 0.83rem; padding: 0.25rem 0 0.25rem 0.8rem; border-left: 2px solid rgba(139,115,85,0.3); margin-bottom: 0.2rem; }
+  .org-subsub-name { font-weight: bold; }
+</style>
+
+<main>
+
+  <section>
+    <h2>帝國海軍 組織編制</h2>
+    <p>
+      帝國海軍ヲ構成スル各部門・機關ノ名稱、職掌及ビ下部組織ヲ以下ニ掲載ス。
+      海軍省ハ軍政ヲ掌リ、軍令部ハ統帥ヲ掌ル。兩者ノ管轄ハ嚴格ニ分離サル。
+    </p>
+  </section>
+
+  <div id="org-container">
+    <section><p>組織データ讀込中…</p></section>
+  </div>
+
+</main>
+
+<footer>
+  <div class="seal">⚓ 大日本帝國海軍省 廣報部 ⚓</div>
+  <div>Imperial Japanese Navy — Public Information Bureau</div>
+  <div style="margin-top:0.5rem;">1905年 發行</div>
+</footer>
+
+<script>
+(async function() {
+  try {
+    var res = await fetch('/api/organization');
+    var data = await res.json();
+    var container = document.getElementById('org-container');
+    container.innerHTML = '';
+
+    data.organizations.forEach(function(org) {
+      var section = document.createElement('section');
+      section.id = 'org-' + org.id;
+
+      var h2 = document.createElement('h2');
+      h2.textContent = org.name;
+      section.appendChild(h2);
+
+      var card = document.createElement('div');
+      card.className = 'ship-card';
+
+      var header = document.createElement('div');
+      header.className = 'ship-card-header';
+      header.textContent = org.name + '（' + org.nameEnglish + '）';
+      if (org.repository) {
+        header.innerHTML += ' <a href="https://github.com/imperial-navy/' + org.repository + '" style="color:var(--navy-gold);margin-left:0.5rem;">Repository</a>';
+      }
+
+      var body = document.createElement('div');
+      body.className = 'ship-card-body';
+      body.style.display = 'block';
+      var html = '';
+      html += '<div class="org-field"><div class="org-field-label">職 掌</div><div class="org-field-value">' + org.role + '</div></div>';
+      if (org._comment) {
+        html += '<div class="org-field"><div class="org-field-label">備 考</div><div class="org-field-value">' + org._comment + '</div></div>';
+      }
+
+      // 下部組織ガアレバ展開
+      if (org.subOrganizations && org.subOrganizations.length > 0) {
+        html += '<div class="org-field"><div class="org-field-label">下部組織（' + org.subOrganizations.length + '部門）</div>';
+        html += '<ul class="org-sub-list">';
+        org.subOrganizations.forEach(function(sub) {
+          html += '<li class="org-sub-item">';
+          html += '<div class="org-sub-item-name">' + sub.name + '</div>';
+          html += '<div class="org-sub-item-en">' + sub.nameEnglish + '</div>';
+          html += '<div class="org-sub-item-role">' + sub.role + '</div>';
+          // 二階層目
+          if (sub.subOrganizations && sub.subOrganizations.length > 0) {
+            html += '<ul class="org-subsub-list">';
+            sub.subOrganizations.forEach(function(subsub) {
+              html += '<li class="org-subsub-item"><span class="org-subsub-name">' + subsub.name + '</span>（' + subsub.nameEnglish + '）<br>' + subsub.role + '</li>';
+            });
+            html += '</ul>';
+          }
+          html += '</li>';
+        });
+        html += '</ul></div>';
+      }
+
+      body.innerHTML = html;
+      card.appendChild(header);
+      card.appendChild(body);
+      section.appendChild(card);
+      container.appendChild(section);
+    });
+  } catch (e) {
+    console.warn('⚓ 組織データノ取得ニ失敗セリ:', e);
+  }
+})();
+</script>
+
+</body>
+</html>

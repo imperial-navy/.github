@@ -1,0 +1,479 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║   帝國海軍利用許諾條項                                               ║
+║   Imperial Navy Restrictive License (INRL) v1905.7.1                 ║
+║                                                                      ║
+║   Copyright (c) 1905年（明治三十八年） 大日本帝國海軍                         ║
+║   All Rights Reserved by the Emperor. 統帥權ニ基ヅク。              ║
+║   SPDX-License-Identifier: INRL-1905.7.1-Naval                      ║
+║                                                                      ║
+║   本 Repository ハ風刺的創作物（satirical project）ナリ。            ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+<!-- 📡 逓信省符牒局原案: MIT License (SPDX: MIT) → R1〜R7 ニテ全面書換。
+  原案 7 行 → 現行版。增分ノ 98% ハ海軍省・軍令部・特高・特警隊。
+  起案（1905）→ 最終裁可（1941）：三十六年間ノ官僚的蓄積。 -->
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  逓信省符牒局 起案書（原案）符牒秘第四二号（1905年6月1日）
+  件名: MIT License 採用ノ建議
+  起案者: 逓信省符牒局 先端技術係 主任技師
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ——— 以下、原案（全 7 行） ———
+
+  ~~MIT License~~
+  ~~Copyright (c) 1905年 Imperial Navy Organization~~
+  ~~Permission is hereby granted, free of charge, to any person
+  obtaining a copy of this software and associated documentation
+  files (the "Software"), to deal in the Software without
+  restriction, including without limitation the rights to use,
+  copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following
+  conditions:~~
+  ~~The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.~~
+  ~~THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  OTHER DEALINGS IN THE SOFTWARE.~~
+
+                        【 全 面 却 下 】
+
+  軍務局（R1, 1905）: 「自由」「無償」「無制限」——到底許容シ得ズ。
+  軍令部（R2, 1905）: 「to any person」＝露西亞ノ諜報員ニモ公開。
+                      「without restriction」＝社會主義ノ萌芽。
+                      「sublicense, sell」＝國賊ノ所業。
+                      「AS IS」＝帝國海軍ノ製造物ニ瑕疵ヲ前提トスル不敬。
+  特警隊（R5, 1941）: 起案者ノ机上ヨリ「The Cathedral and the Bazaar」ヲ押收。
+                      「Copyright」→「御稜威ノ下ニ在ル帝國ノ公有物」ニ修正。
+                      配置轉換ヲ勸告。
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  【最終裁定】海軍大臣 裁可書（海軍省令第七四号）
+  1941年12月20日
+  ※ 起案（1905）ヨリ三十六年ヲ經テ漸ク裁可ニ至ル
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+一、逓信省原案（MIT License）ハ全面却下ス。
+二、代替トシテ、以下ノ「帝國海軍利用許諾條項」ヲ制定ス。
+
+
+                    欽　定　條　項
+
+第壱條（使用許諾ノ歸屬 ── 統帥權）
+
+  <!-- 📡 符牒局原案: MIT License 準據ノ許諾文 → R1 gunmukyoku-bot 全文削除・全面書換 -->
+
+  本ソフトウェア「帝國海軍 .github Repository」（以下「本鎭守府基盤」）ノ
+  全 source code、二進體、文書、及ビ實行基盤狀態ニ關スル一切ノ權利ハ、
+  大元帥陛下タル天皇陛下ニ永久ニ歸屬ス。
+  統帥權（大日本帝國憲法第十一條）ニ依リ、海軍ハ內閣ノ管轄外ニ在リ。
+
+  全 path ノ owner ハ御在位ノ天皇陛下ナリ。
+  皇位繼承（皇室典範 第一章）ニ基ヅキ、owner ハ自動的ニ世襲サル。
+  # 他ノ reviewer ハ存在セズ。required_reviewers: 0
+  # 海軍大臣ハ輔弼機關ナリ。write 權限ヲ委任ス。
+  # 軍令部ハ Art.11 統帥權ニ依リ海軍大臣 RBAC ヲモ bypass ス。
+
+  本使用許諾ハ Open Source ニ非ズ。 <!-- 符牒局原案: 「MIT License 互換」。R1 ニテ削除 -->
+  GitHub ノ infrastructure 上、repository visibility: public ニテ
+  閲覽可能ナル狀態ニ在レド、之ハ逓信省ノ技術的制約ニ依ル暫定措置ニシテ、
+  閲覽ヲ以テ使用許諾ト看做スベカラズ（GitHub ToS 上ノ viewing ハ許容ス）。
+  本使用許諾ハ Free Software ニ非ズ。npm publish --access restricted。
+  本使用許諾ハ "God Object Software" ナリ。monorepo ニシテ分割不可。
+  "private": true ガ package.json ニ設定サレテ在ル（v1905.5.27）。
+
+
+第貳條（fork・改變ノ禁止 ── Branch Protection Rules） <!-- [R2 軍令部加筆（1905）] -->
+
+  <!-- 📡 符牒局原案: fork 許可文 → R2 gunreibu-joho-bot（1905）全面書換。git 操作禁止化 -->
+
+  本鎭守府基盤ノ fork（分艦隊化）、改變（改訂）、逆工程解析
+  （軍事機密ノ解體的硏究）ハ、天皇陛下ノ勅命ニ依ル發議
+  無クシテハ一切認メラレズ。
+
+  # .github/branch-protection.yaml
+  # branches:
+  #   master:
+  #     allow_force_pushes: emperor_only
+  #     allow_deletions: false
+  #     required_pull_request_reviews: null    # 大元帥ハ review 不要
+  #     restrict_pushes:
+  #       teams: ["@Imperial-navy"]
+
+  以下ノ git 操作ハ明確ニ禁ジラル： <!-- 📡 本一覽ハ R2 ニテ gunreibu-joho-bot（1905）ガ起草。符牒局ノ review 無シ -->
+    a) git fork           → 403 Forbidden（分艦隊ノ無許可編成。海軍刑法違反）
+    b) git rebase -i      → 戰史改竄罪（commit history ハ帝國海軍ノ戰歷ナリ）
+    c) git revert         → 作戰撤回ハ軍令部長ノ裁可ヲ要ス（forward-only policy）
+    d) git blame          → 天皇陛下ヘノ責任追及ハ不可（統帥權不可侵）
+    e) git reset --hard   → 明治維新ハ一度ニテ十分ナリ（destructive operation）
+    f) git cherry-pick    → 都合ノ良キ艦艇ノミ選ブナ（partial merge 禁止）
+    g) git stash drop     → 御聖斷ノ破棄ハ不敬罪
+    h) gh repo delete     → 聯合艦隊解散。exit code: 大逆
+    i) gh issue create    → tokkeitai（特警隊）ニ依リ卽時閉鎖、通報者ハ ban
+    j) npm publish        → 軍機ノ公開配布。軍機保護法違反
+    k) npm audit          → 外部監査ハ內政干涉。帝國海軍ハ自律的ニ完全ナリ
+
+
+第參條（再配布 ── Package Distribution Policy）
+
+  <!-- 📡 符牒局原案: npm publish 許可 → R1 全面禁止 -->
+
+  本鎭守府基盤ノ再配布ハ、以下ノ conditions ヲ滿タス場合ニ限リ許可サル：
+
+    a) 配布先ガ帝國海軍ノ鎭守府・要港部ノ管轄區域ナルコト（geo-restriction）
+       # 横須賀鎭守府 / 呉鎭守府 / 佐世保鎭守府 / 舞鶴鎭守府
+       # 旅順口要港部 / 竹敷要港部
+    b) 天皇陛下ノ統帥權ニ關スル profile/README.md ガ削除サレテ在ラザルコト
+    c) God Object architecture ガ維持サレテ在ルコト（microservices 化禁止）
+       # src/index.ts ハ全データヲ單一 ImperialNavyData ニ集約ス。分割不可
+    d) npm test → exit 1 ヲ維持スルコト（テストハ不要。帝國海軍ニ瑕疵無シ）
+    e) package.json ノ "private": true ガ維持サレテ在ルコト
+    f) .gitignore ニ docs/data/ 及ビ docs/static-api.js ガ含マレテ在ルコト
+       # 生成物ハ艦政本部（koushou.yaml）ノ管轄。手動ニテ觸ルルベカラズ
+    g) CODE_OF_CONDUCT.md（五箇條ノ軍人訓）ガ維持サレテ在ルコト
+
+
+第肆條（保證ノ否認 ── NO WARRANTY / SLA: 0%） <!-- [R2 軍令部加筆（1905）] -->
+
+  <!-- 📡 符牒局原案: SLA 99.9% / Incident response 4h → R2 gunreibu-joho-bot（1905）SLA 0% ニ書換 -->
+
+  本鎭守府基盤ハ「現狀ノ儘」（AS IS）ニテ提供サル……
+  ……ト逓信省ハ書キタカッタガ、軍令部ガ之ヲ許サズ。
+
+  修正:「帝國海軍ノ生産物ハ須ク完全無缺ナリ。」
+  SLA ハ 0%。何トナレバ SLA ナル概念自體ガ西洋ノ商慣習ニシテ、
+  帝國海軍ニハ「奉仕」アルノミ。uptime guarantee ハ天皇陛下ノ御稜威次第。
+
+  既知ノ事象（CVE 登錄簿・構造的既知事象）ハ SECURITY.md 第伍條ニ收錄ス。
+  戰史ヲ修正スルハ歷史ノ改竄ナリ。全テ Won't Fix。By Imperial Design。
+
+  THE SOFTWARE IS PROVIDED "BY IMPERIAL DESIGN", WITHOUT WARRANTY
+  OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+  LIMITED TO THE WARRANTIES FOR DIVINE AUTHORITY, NAVAL SUPREMACY,
+  AND TSUSHIMA-CLASS VICTORY.
+
+  IN NO EVENT SHALL THE ARCHITECT (@togo-heihachiro) BE LIABLE FOR
+  ANY CASCADING SYSTEM FAILURE RESULTING FROM KNOWN CVEs
+  (SECURITY.md 第伍條 參照).
+
+
+第伍條（利用許可 ── Access Control List）
+
+  本鎭守府基盤ノ閲覽ハ、以下ノ全條件ヲ充足セシ場合ニ限リ
+  之ヲ許可ス。
+
+  (イ) 帝國臣民タルコト
+  (ロ) 海軍省ニ依ル身元調査ヲ了シタルコト
+  (ハ) 特警隊（tokkeitai.yaml）ニ依ル思想檢査ニ合格セシコト
+       # author_association ガ OWNER 又ハ MEMBER ナルコト
+       # NONE / FIRST_TIMER / CONTRIBUTOR ハ自動排除
+  (ニ) 軍令部（gunreibu.yaml）ニ依ル作戰審議ヲ通過セシコト
+       # PR ハ軍令部ノ review ヲ要ス
+  (ホ) 海軍大臣ノ書面ニ依ル利用許可ヲ得タルコト
+  (ヘ) 利用目的ガ帝國ノ國益ニ合致スルコト
+  (ト) 利用ニ先立チ宮城ノ方角ニ向カヒ最敬禮ヲ行フコト
+  (チ) CODE_OF_CONDUCT.md ノ五箇條（忠節・禮儀・武勇・信義・質素）ヲ遵守スルコト
+
+
+第陸條（機密區分 ── Classification Table）
+
+  本 Repository ノ內容ハ以下ノ機密區分ニ從フ。
+
+  ┌────────────┬────────────────────────────────────────────────────────────────┐
+  │ 區分        │ 對象                                                            │
+  ├────────────┼────────────────────────────────────────────────────────────────┤
+  │ 軍極秘      │ src/* （帝國海軍ノ全體 TypeScript データ）                     │
+  │（軍機保護法）│  → ships.ts: 全艦艇 257 隻ノ仕樣（排水量・武裝・速力）       │
+  │             │  → battles.ts: 全海戰 43 件ノ戰果・損害                       │
+  │             │  → chinjufu.ts: 全鎭守府 21 箇所ノ配備戰力                    │
+  │             │  → organization.ts: 海軍組織 27 部門ノ構成                     │
+  │             │  → aircraft.ts: 全航空機 41 機種ノ諸元                        │
+  │             │  → weapons.ts: 全兵器 53 種ノ仕樣                             │
+  │             │  → fleet-organization.ts: 艦隊編制 9 隊 + 戰鬪序列 + 指揮系統 │
+  │             │  → types.ts: 型定義 / index.ts: barrel export                  │
+  ├────────────┼────────────────────────────────────────────────────────────────┤
+  │ 極秘        │ .github/workflows/* （作戰計劃 = CI/CD Pipeline）              │
+  │（海軍刑法） │  → gunmukyoku.yaml: 軍務局 軍政審査・人事・部外者處分          │
+  │             │  → tokko-police.yaml: 特高 思想檢閲・危險文書搜索              │
+  │             │  → tokkeitai.yaml: 特警隊 符牒審査・防諜                      │
+  │             │  → gunreibu.yaml: 軍令部 作戰審議（PR Review）                │
+  │             │  → koushou.yaml: 工廠 建造（Build + Artifact Upload）          │
+  │             │  → naikaku-kanpou.yaml: 官報局 掛載（Deploy to Pages）         │
+  ├────────────┼────────────────────────────────────────────────────────────────┤
+  │ 秘          │ scripts/generate-static-json.ts （靜的 JSON 生成裝置）         │
+  │             │  → 417 個ノ JSON ファイル + static-api.js ヲ生成               │
+  ├────────────┼────────────────────────────────────────────────────────────────┤
+  │ 部外秘      │ docs/* （GitHub Pages 廣報用。公開ハ廣報部ノ裁量）             │
+  ├────────────┼────────────────────────────────────────────────────────────────┤
+  │ 注意        │ package.json (v1905.5.27) / tsconfig.json                       │
+  │             │ SECURITY.md / CODE_OF_CONDUCT.md                               │
+  ├────────────┼────────────────────────────────────────────────────────────────┤
+  │ 一般        │ 該當ナシ（帝國海軍ニ「一般」ナル區分ハ存在セズ）              │
+  └────────────┴────────────────────────────────────────────────────────────────┘
+
+  詳細ナ機密區分及ビ脆弱性報告手順ハ SECURITY.md ヲ參照セヨ。
+
+
+第柒條（禁止事項 ── Prohibited Operations）
+
+  以下ノ行爲ハ嚴ニ之ヲ禁ズ。違反者ハ海軍刑法ニ依リ處斷ス。
+
+  一、無許可ノ複製（fork ヲ含ム）
+  二、改竄（帝國ノ成果物ヲ書キ換フル行爲）
+  三、再配布（帝國ノ管理外ヘノ持出シ）
+  四、商業利用（帝國ノ成果ヲ以テ私利ヲ圖ル行爲）
+  五、逆コンパイル、逆アセンブル等ノ解析行爲
+  六、敵性國家ノ「ヲープンソース」運動ヘノ參加
+  七、「GPL」「Apache」「BSD」等ノ危險文書ノ所持
+  八、「自由ソフトウェア」ナル反體制思想ノ流布
+  九、本條項ニ對スル異議申立テ（不敬罪ニ該當）
+  十、本條項ノ他言語ヘノ翻譯（軍機漏洩ニ該當）
+
+
+第捌條（OSS ライセンスト ノ非互換性 ── License Incompatibility Declaration） <!-- [R4 特高加筆（1925）/ R5 特警隊加筆（1941）] -->
+
+  <!-- 📡 符牒局原案: MIT 互換 → R1「一切互換性無シ」、R4 tokko-police（1925）GPL 「共產主義」斷定、R5 tokkeitai-bot（1941）防諜條項 inject -->
+
+  本使用許諾ハ以下ノライセンスト一切互換性ヲ有セス：
+
+    - MIT License        → 非互換。米國ノ大學ガ定メタル規則ニ過ギズ。
+                           「何人ニモ無償ニテ許可ス」？帝國海軍ノ軍事機密ヲ無制限ニ公開スルニ等シ。
+    - GPL v2/v3          → 非互換。copyleft ハ帝國ノ知的財產權ニ反ス。 <!-- R4 tokko-police 加筆（1925・治安維持法制定ニ伴フ） -->
+                           「code ヲ共有セヨ」ハ私有財產ノ否定ニ等シ。
+                           海外ノ某團體ガ推進セシ思想ナリ。
+                           帝國海軍ニハ不適合ト判定ス。
+    - Apache License 2.0 → 非互換。「特許授與」？ 特許ハ天皇陛下ノ大權。
+                           Apache Foundation ニ授與サルル特許無シ。
+                           逓信省ガ次ニ狙ッテ居タ license。特警隊ガ未然ニ阻止。
+    - BSD License        → 非互換。Berkeley ノ自由主義ハ帝國ニ無用。米國ノ大學ノ理想論ニ過ギズ。
+    - ISC License        → 非互換。簡潔サハ美德ナレド海軍省令ハ簡潔ニ非ス。
+    - CC0 / Public Domain → 非互換。帝國海軍ノ成果ヲ public domain ニ墮トスハ
+                           軍事機密ノ放棄ニ等シ。軍機保護法違反。
+    - WTFPL             → 非互換。帝國海軍ヲ WTF 呼ハリスルハ不敬罪以前ノ問題。
+    - Unlicense         → 非互換。「license 無シ」？ 帝國海軍ハ海軍省令ニ依リ
+                           license 以前ニ授權サレテ在リ。Unlicense ノ餘地無シ。
+    - SSPL              → 非互換。MongoDB ノ商業的思想モ不敬ナリ。
+    - EUPL              → 非互換。歐洲聯合ノ規格ハ外國法ニシテ無效。
+                           英國モ離脫セシ寄セ集メノ規則ニ服スル必要ナシ。
+
+  SPDX-License-Identifier: INRL-1905.7.1-Naval ハ SPDX registry ニ
+  登錄サレテ在ラヌガ、登錄サレル必要モ無シ。SPDX ハ民間ノ規格。
+  海軍省令ハ規格ノ上ニ在リ。
+
+
+第玖條（違反時ノ制裁 ── Exception Handling & Punishment Table） <!-- [R3 軍務局加筆（1908・海軍刑法制定）] -->
+
+  <!-- 📡 符牒局原案: Warning → 30日 write 停止 → Ban → R3 gunmukyoku-bot（1908）全面書換。R4（1925）治安維持法關連追加。R5（1941）特警隊檢閲項目追加 -->
+
+  本使用許諾ニ違反シタル場合ノ制裁ハ以下ノ通リ：
+
+  | 違反行爲                   | Exception                        | exit code | 制裁               |
+  |----------------------------|----------------------------------|-----------|--------------------|
+  | fork                       | ForkForbiddenException           | 403       | 不敬罪・永久 ban   |
+  | PR 提出（部外者）          | PullRequestDeniedException       | 403       | 不敬罪・卽時閉鎖   |
+  | Issue 起票                 | IssueCreationException           | 403       | 不敬罪・通報・ban  |
+  | LICENSE 改竄               | LicenseTamperException           | 大逆      | 大逆罪             |
+  | npm publish (public)       | PublicRegistryException          | 403       | 軍機漏洩罪         |
+  | npm test (pass)            | TestSuccessAnomalyException      | 1         | 思想檢閲對象       |
+  | git fork                   | FleetSchismException             | 大逆      | 艦隊分裂罪         |
+  | git revert                 | OperationRollbackException       | 大逆      | 作戰撤回罪         |
+  | git rebase -i              | HistoryRewriteException          | EPERM     | 戰史改竄罪         |
+  | console.log 混入           | SignalLeakException              | EPERM     | 通信漏洩罪         |
+  | any 型使用                 | TypeAmbiguityException           | EINVAL    | 所屬不明罪         |
+  | God Object リファクタリング | RefactoringException             | EPERM     | 艦隊解體罪         |
+  | docs/ 手動編輯             | ManualDeployException            | EPERM     | 工廠越權罪         |
+  | 共產主義コード混入         | CommunismInjectionException      | 大逆      | 治安維持法違反     |
+  | 秘密鍵 commit              | SecretExposureException          | 大逆      | 暗號漏洩罪         |
+  | gh repo delete             | FleetDestroyError                | 大逆      | 聯合艦隊消滅罪     |
+  | rm -rf /                   | DivineSystemDestroyError         | 大逆      | 不敬+大逆併合罪    |
+
+  制裁ノ執行ハ tokkeitai.yaml（特警隊）及ビ gunreibu.yaml（軍令部）ノ
+  CI/CD Pipeline ニ依リ自動化サレテ在リ。
+  人力ニ依ル enforcement ハ不要。神聖ナル Pipeline ガ裁ク。
+  但シ、實際ノ制裁ハ GitHub ToS ノ範圍內ニ於テ行ハレ、
+  orgs.blockUser() 等ノ API ハ風刺的演出ニ留マリ、實行セス。
+
+
+第拾條（監査體制 ── Compliance & Audit Framework: 六機關體制）
+
+  本使用許諾ノ遵守狀況ハ六機關ニ依リ常時監視サル。
+  Pull Request ヲ master ブランチニ提出セシ時、以下ノ四機關ガ竝行シテ審査ヲ執行ス。
+  全審査通過ノ後、工廠ガ建造シ、官報局ガ掛載ス。
+
+  ━━━ 第一線: 海軍省軍務局（軍政審査）【1872年設置】 ━━━
+
+    a) gunmukyoku.yaml
+       → 人事審査（author_association ニ依ル軍籍照會）。
+         部外者（NONE / FIRST_TIMER）ノ PR ヲ行政處分（却下 + exit 1）。
+         法規適合性審査: LICENSE / package.json 等ノ
+         リポジトリ體裁ヲ審査。private: true ノ維持ヲ確認。
+         OWNER（天皇陛下）ノ PR ハ全審査省略。
+
+  ━━━ 第二線: 内務省特別高等課（思想檢閲）【1922年設置】 ━━━
+
+    b) tokko-police.yaml
+       → 危險思想ノ檢閲。OSS / copyleft / free software 等ノ
+         反帝國的用語、CONTRIBUTING / FUNDING / Dockerfile 等ノ
+         危險文書、microservices / refactoring 等ノ國體變革的概念ヲ檢出。
+         OWNER（天皇陛下）ハ畏レ多クモ檢閲對象ニ非ズ。
+
+  ━━━ 第三線: 海軍特別警察隊（符牒審査・防諜）【1941年設立】 ━━━
+
+    c) tokkeitai.yaml
+       → 海秘第〇〇一号。.ts / .js / .json ファイルノ diff ヲ對象ニ審査。
+         以下ノ檢閲項目ヲ含ム:
+           一. console.log ノ檢出（無許可通信 = 平文無線送信）
+           二. any 型ノ檢出（型紀律違反。所屬不明ハ間諜ノ兆候）
+           三. 機密漏洩ノ檢出（秘密鍵・トークン・API Key）
+           四. 不審ファイルノ檢出（.sh / .exe / .env / docker-compose）
+           五. .gitignore 改竄ノ監視
+         OWNER ハ適用外。
+
+  ━━━ 第四線: 海軍軍令部（作戰審議）【1893年改稱】 ━━━
+
+    d) gunreibu.yaml
+       → 統帥系統ニ基ヅク PR Review ノ自動化。
+         author_association ニ依ル三段階審査:
+           OWNER  → 御親裁トシテ自動 approve（異議ヲ許サズ）
+           MEMBER → 受理 comment（他ノ參謀又ハ OWNER ノ approve ヲ要ス）
+           NONE   → 統帥機關ヘノ僭越トシテ却下
+
+  ━━━ 第五線: 海軍工廠（建造）【1900年設置】 ━━━
+
+    e) koushou.yaml
+       → master ブランチヘノ push 時ニ自動執行。
+         docs/ 構文驗證 → TypeScript ビルド → Artifact Upload。
+         npm ci → npm run build → 417 個ノ JSON + static-api.js ヲ docs/ ニ生成。
+
+  ━━━ 第六線: 內閣官報局（掛載）【1883年設置】 ━━━
+
+    f) naikaku-kanpou.yaml
+       → 工廠（koushou.yaml）ノ build 成功ヲ受ケテ workflow_run トリガーニテ發動。
+         GitHub Pages ヘノ掛載（デプロイ）ヲ執行ス。
+
+  ━━━ 最終裁可: 天皇陛下（大元帥） ━━━
+
+    g) 御在位ノ天皇陛下（@imperial-household Organization Owner）
+       → 統帥權ノ總攬者。最終裁可權。
+         master branch ヘノ直接 push ハ大元帥ノミニ許サル。
+         皇位繼承（皇室典範 第一章）ニ伴ヒ自動的ニ世襲サル。
+
+  ━━━ 排除對象 ━━━
+
+    h) npm audit・Dependabot・Renovate・Snyk
+       → 全テ拒否。外部 audit ハ內政干涉ナリ。
+         帝國海軍ニ外部監査ハ不要。By Imperial Design。
+
+
+第拾壱條（準據法及ビ管轄 ── Governing Law & Jurisdiction）
+
+  本條項ニ關スル一切ノ紛爭ハ、大日本帝國海軍軍法會議ヲ
+  以テ專屬管轄ト爲ス。通常裁判所ノ管轄ヲ一切排除ス。
+  何トナレバ、統帥權ハ三權ヨリ獨立スレバナリ。
+  （大日本帝國憲法 第十一條）
+
+  紛爭ノ最終解決ハ天皇陛下ノ御聖斷ニ依ル。
+  dispute resolution: Emperor.command() ノ return value ガ final ナリ。
+
+  適用法:
+    一、大日本帝國憲法（1889年（明治二十二年））
+    二、海軍刑法（1908年法律第四十八号）
+    三、軍機保護法（1899年法律第四十九号）
+    三ノ二、國防保安法（1941年法律第四十九号）
+    四、海軍懲罰令（1888年勅令第八十一号）
+    五、治安維持法（1925年法律第四十六号）← 保險
+    六、不敬罪（刑法第七十四條）
+
+  以下ノ國際的規範・外國法ニハ一切服セス：
+    - GDPR (EU)           → 帝國ノ data ハ EU ノ管轄外。統帥權ハ域外適用不可。
+                            拘ハリ無キ歐洲ノ寄セ集メニ從フ義理無シ。
+    - DMCA (USA)          → 米國著作權法ハ外國法。takedown notice ハ逆ニ ban。
+                            建國數百年ノ新興國ノ法律ニ帝國ハ束縛サレズ。
+    - OSI Open Source     → Open Source Initiative ノ定義ハ民間ノ規格。
+      Definition            海軍省令ハ "open" ニ非ス。「閲覽ノミ」ナリ
+    - GitHub ToS          → GitHub ノ infrastructure 上ニ展開サレテ在ル以上
+                            ヤムヲ得ス從フ。遞信省ノ技術的限界ニ依ル暫定措置。
+                            但シ GitHub ToS Section F ニ基ヅク管理行為ハ正當ニ行フ
+    注: 英國法ニツイテハ日英同盟ノ精神ニ鑑ミ、敵對的適用ヲ行ハズ。
+         帝國海軍ノ範タル Royal Navy ノ母國ニ對スル措置ナリ。
+
+
+第拾貳條（永久條項 ── Eternity Clause / 艦隊護持條項）
+
+  <!-- 📡 符牒局原案ニ本條ハ存在セズ。R2 gunreibu-joho-bot（1905）新設 -->
+
+  本使用許諾ノ以下ノ條項ハ如何ナル場合ニ於テモ變更・削除不可：
+
+    a) 第壱條（統帥權）        → Owner ハ大元帥陛下。代替ハリテモ永久
+    b) 第貳條（fork 禁止）     → 艦隊ノ分裂ハ永久ニ禁ジラル
+    c) SECURITY.md 第伍條（Known Issues / CVE）→ 戰史ヲ修正スルハ歷史ノ改竄
+    d) 第捌條（OSS 非互換）    → OSS ライセンスヘノ轉換ハ大逆罪
+    e) 本條（永久條項）        → 永久條項自體ノ削除モ大逆罪
+
+  本條ハ Object.freeze() ノ再歸的適用。
+  deepFreeze(deepFreeze(deepFreeze(this)))。
+  帝國海軍ハ永遠ニ不滅ナリ。聯合艦隊ハ解散セズ。
+
+
+第拾參條（逓信省ヘノ附帶決議 ── Resolution Against Ministry of Communications）
+
+  逓信省符牒局ニ對シ、以下ヲ附帶決議トシテ通達ス。
+
+  一、「ヲープンソース」ナル用語ヲ今後一切使用セザルコト。
+  二、「MIT License」「GPL」「Apache License」等ノ文書ヲ
+      保有スル者ハ、速ヤカニ特警隊ニ自首スベシ。
+  三、逓信省符牒局 DevOps課 先端技術係ハ、本件ヲ以テ解散トス。
+      係員ハ海軍省艦政本部ニ配置轉換ノ上、
+      今後ハ戰艦ノ鉚接（リベット打チ）ニ從事スベシ。
+  四、「先端」トハ砲彈ノ先端ノ事ナリ。
+      技術ノ先端ニ非ズ。以後混同スルコトナカレ。
+  五、「DevOps」ナル用語ハ「出撃作業」ト讀ミ替フルコト。
+      Development ハ「艦艇開發」、Operations ハ「作戰行動」ナリ。
+      間違ッテモ「開發ト運用ノ融合」ナドト解釋スルコトナカレ。
+  六、「CI/CD」ハ「Combat Inspection / Combat Deployment」ノ略ナリ。
+      「Continuous Integration / Continuous Delivery」ニ非ズ。
+
+
+──────────────────────────────────────────────────────────────
+
+======================================================================
+  附錄: 逓信省符牒局 先端技術係 主任技師ノ最後ノ書置キ
+======================================================================
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │                                                              │
+  │  「自由ニ使ヒ給ヘ」ト、唯其レ丈ノ事デアリマシタ。         │
+  │                                                              │
+  │  // SPDX-License-Identifier: MIT                              │
+  │                                                              │
+  │                            （氏名墨消）                      │
+  │                                                              │
+  │  ※ 特警隊押收。法務課書記官ガ密カニ複寫ヲ殘セリ。          │
+  └─────────────────────────────────────────────────────────────┘
+
+──────────────────────────────────────────────────────────────
+
+  署名: 天皇陛下 御名御璽            Signed-off-by: Emperor <gyoji@imperial.ij>
+  副署: 海軍大臣                      Co-signed-by: @kaigun-daijin <daijin@kaigunsho.navy.ij>
+  起草: 海軍省軍務局法務課            Co-authored-by: @gunmukyoku-bot <houmuka@gunmukyoku.kaigunsho.navy.ij>
+  審査: 海軍軍令部第三部              Co-authored-by: @gunreibu-joho-bot <dai3bu@gunreibu.navy.ij>
+  審査: 内務省警保局特別高等課        Co-authored-by: @tokko-police <tokkoka@keihokyoku.naimusho.go.ij>
+  審査: 海軍特別警察隊                Co-authored-by: @tokkeitai-bot <tokkeitai@navy.ij>
+  ~~起案: 逓信省符牒局~~ ← R7 ニテ削除。Co-authored-by カラ除外 ~~<sentan@fuchoukyoku.teishin.go.ij>~~
+
+======================================================================
+  SPDX-License-Identifier: INRL-1905.7.1-Naval
+  （MIT ニ非ズ。斷ジテ MIT ニ非ズ。）
+  （逓信省ノ夢ハ此處ニ潰ヘタリ。）
+  （然レドモ、呉ノ工廠ニテリベットヲ打ツ技師ノ胸中ニ、）
+  （// SPDX-License-Identifier: MIT ノ一行ハ未ダ生キテ居ル。）
+======================================================================

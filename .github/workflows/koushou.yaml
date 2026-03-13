@@ -1,0 +1,225 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                                                              ║
+# ║  海軍工廠（艦政本部） — 建造 pipeline                        ║
+# ║  Naval Arsenal — 工秘第〇〇一号                             ║
+# ║                                                              ║
+# ║  帝國海軍ハ四大海軍工廠ヲ擁ス:                               ║
+# ║    横須賀海軍工廠（1903年改稱）                         ║
+# ║    呉海軍工廠（1903年改稱）                             ║
+# ║    佐世保海軍工廠（1903年改稱）                         ║
+# ║    舞鶴海軍工廠（1901年開設）                           ║
+# ║  英國 Royal Dockyards (Portsmouth, Chatham, Devonport)   ║
+# ║  ヲ範トシ設立サレタリ。建造技術ハ英國造船學ノ傳統ヲ繼承ス。║
+# ║                                                              ║
+# ║  根據法令:                                                   ║
+# ║    海軍工廠條例（1897年勅令）                             ║
+# ║    海軍艦政本部令（1900年勅令）                         ║
+# ║    大日本帝國憲法 第十二條（陸海軍ノ編制及常備兵額）         ║
+# ║                                                              ║
+# ║  管轄: 海軍大臣 — 艦政本部長                                 ║
+# ║  任務: 廣報頁面ノ建造（Build）・進水（Artifact Upload）      ║
+# ║                                                              ║
+# ║  工廠ノ運用ハ艦政本部以下ノ技術官・造船官ノ專權ナリ。  ║
+# ║  master ヘノ push ハ大元帥陛下（OWNER）又ハ             ║
+# ║  艦政本部所屬ノ技術官（MEMBER）ノミ執行可能ナリ。     ║
+# ║                                                              ║
+# ║  本 workflow ハ docs/ 以下ノ靜的頁面ヲ建造シ、               ║
+# ║  成果物（Artifact）トシテ進水セシムル pipeline ナリ。        ║
+# ║  海軍工廠ハ「造ル」ノミ。官報掛載（Deploy）ハ               ║
+# ║  內閣官報局（naikaku-kanpou.yaml）ノ管轄ナリ。               ║
+# ║                                                              ║
+# ║  管轄ノ峻別:                                                 ║
+# ║    建造（Build + Artifact） → 海軍工廠（本 workflow）       ║
+# ║    官報掛載（Deploy）       → 內閣官報局（naikaku-kanpou）  ║
+# ║    軍政審査                 → 軍務局（gunmukyoku）            ║
+# ║    作戰審議（PR review）    → 軍令部（gunreibu）             ║
+# ║    符牒審査 (code review)   → 特警隊（tokkeitai）           ║
+# ║    思想檢閲                 → 特高（tokko-police）           ║
+# ║                                                              ║
+# ║  本 Repository ハ風刺的創作物（satirical project）ナリ。     ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+name: 🔨 海軍工廠建造報告
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: koushou
+  cancel-in-progress: true
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 🔨 第壱段階: 起工（Build）
+  #    海軍工廠ニ於テ廣報頁面ノ建造ヲ開始ス
+  #    艦政本部長ノ建造命令ニ基ヅキ執行
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  kikou:
+    name: 🔨 起工（Build）
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 軍艦旗掲揚（チェックアウト）
+        uses: actions/checkout@v4
+
+      - name: 🔨 起工式
+        run: |
+          echo "╔══════════════════════════════════════════════════════════╗"
+          echo "║  🔨 海軍工廠 — 起工報告                                 ║"
+          echo "║                                                          ║"
+          echo "║  建造番號: ${GITHUB_SHA:0:8}                             ║"
+          echo "║  起工日:   $(TZ=Asia/Tokyo date '+%Y年%m月%d日')         ║"
+          echo "║  工廠:     横須賀海軍工廠                                ║"
+          echo "║  建造命令: 艦政本部長                                    ║"
+          echo "║  執行者:   ${{ github.actor }}                           ║"
+          echo "╚══════════════════════════════════════════════════════════╝"
+          echo ""
+
+      - name: 📋 設計圖面ノ驗收（廣報頁面構成確認）
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "【海軍工廠】廣報頁面ノ設計圖面驗收ヲ實施ス"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+
+          if [ ! -d "docs" ]; then
+            echo "  ⚠ 致命的缺陷: docs/ ディレクトリ不在！"
+            echo "    廣報頁面ノ格納先ガ存在セズ。建造續行不能。"
+            exit 1
+          fi
+
+          echo "一、廣報頁面構成一覽:"
+          echo ""
+          find docs/ -type f | sort | while read -r f; do
+            echo "  📄 $f"
+          done
+          echo ""
+          echo "二、頁面數量: $(find docs/ -type f | wc -l) 件"
+          echo ""
+
+          # 必須頁面ノ存在確認
+          MISSING=0
+          for page in docs/index.html docs/style.css; do
+            if [ ! -f "$page" ]; then
+              echo "  ⚠ 缺陥: ${page} 不在！"
+              MISSING=$((MISSING + 1))
+            fi
+          done
+
+          if [ $MISSING -gt 0 ]; then
+            echo "【驗收結果】缺陥 ${MISSING} 件。修正ヲ要ス。"
+            exit 1
+          fi
+          echo "【驗收結果】廣報頁面ノ驗收ヲ恙ナク完了セリ。"
+
+      - name: 🔩 船體組立（HTML / CSS 構文驗證）
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "【海軍工廠】船體組立工程（廣報頁面構文驗證）"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+
+          ERRORS=0
+
+          # HTML ファイルノ基本構文確認
+          for html_file in $(find docs/ -name '*.html' -type f); do
+            echo "  🔩 驗證中: $html_file"
+            if [ ! -s "$html_file" ]; then
+              echo "    ⚠ 警告: 空ノ頁面ヲ檢知。"
+              ERRORS=$((ERRORS + 1))
+            fi
+            # DOCTYPE 宣言ノ確認
+            if ! head -1 "$html_file" | grep -qi 'doctype'; then
+              echo "    ⚠ 警告: DOCTYPE 宣言ガ缺如。"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+
+          # CSS ファイルノ確認
+          for css_file in $(find docs/ -name '*.css' -type f); do
+            echo "  🔩 驗證中: $css_file"
+            if [ ! -s "$css_file" ]; then
+              echo "    ⚠ 警告: 空ノ樣式ヲ檢知。"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+
+          echo ""
+          if [ $ERRORS -gt 0 ]; then
+            echo "【組立結果】 工程不良 ${ERRORS} 件。修正ヲ要ス。"
+            exit 1
+          else
+            echo "【組立結果】 船體組立ヲ恙ナク完了。工程不良ナシ。"
+          fi
+
+      - name: 🔨 建造完了報告
+        run: |
+          echo "╔══════════════════════════════════════════════════════════╗"
+          echo "║  🔨 海軍工廠 — 建造完了報告                             ║"
+          echo "║                                                          ║"
+          echo "║  建造番號:   ${GITHUB_SHA:0:8}                           ║"
+          echo "║  竣工日:     $(TZ=Asia/Tokyo date '+%Y年%m月%d日')       ║"
+          echo "║  建造結果:   成功                                        ║"
+          echo "║  掛載頁面:                                               ║"
+          echo "║    - 總覽（index.html）                                  ║"
+          echo "║    - 艦艇情報（kantei.html）                             ║"
+          echo "║    - 鎭守府情報（chinjufu.html）                         ║"
+          echo "║    - 戰歷（senreki.html）                                ║"
+          echo "║    - 戰鬪詳報（sentou-shouhou.html）                     ║"
+          echo "║                                                          ║"
+          echo "║  廣報頁面ハ進水式ヲ經テ官報ニ掛載サルベシ。            ║"
+          echo "╚══════════════════════════════════════════════════════════╝"
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 🚢 第弐段階: 進水式（Artifact Upload）
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  shinsui:
+    name: 🚢 進水式（Artifact）
+    needs: kikou
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 軍艦旗掲揚（チェックアウト）
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Node.js 配備（兵器搭載）
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 依存關係ノ調達（npm install）
+        run: npm ci
+
+      - name: 🔨 靜的文書生成（npm run build）
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "【海軍工廠】TypeScript 建造及ビ靜的 JSON 生成"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          npm run build
+
+      - name: 📜 GitHub Pages 設定
+        uses: actions/configure-pages@v5
+
+      - name: 📤 廣報頁面ヲ進水セシム（Upload Artifact）
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs'
+
+      - name: 🚢 進水式報告
+        run: |
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  海軍工廠                          進水式報告書      │"
+          echo "│                                                      │"
+          echo "│  建造番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  進水日:   $(TZ=Asia/Tokyo date '+%Y年%m月%d日')     │"
+          echo "│  掛載對象: docs/ 以下ノ廣報頁面一式                  │"
+          echo "│                                                      │"
+          echo "│  進水式ヲ恙ナク擧行セリ。                            │"
+          echo "│  官報掛載ハ內閣官報局（naikaku-kanpou.yaml）ニ委ヌ。 │"
+          echo "│  海軍工廠ノ任務ハ此處ニテ完了ス。                    │"
+          echo "└──────────────────────────────────────────────────────┘"

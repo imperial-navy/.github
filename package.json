@@ -1,0 +1,91 @@
+{
+  "name": "@imperial-navy/org-management",
+  "version": "1905.5.27",
+  "codename": "tsushima",
+  "description": "大日本帝國海軍 GitHub Organization 管理基盤 — 聯合艦隊ノ全戰力ヲ靜的JSON APIトシテ掛載スル帝國ノ情報發信基盤（軍機）",
+  "private": true,
+  "_private_comment": "軍機保護法ニ依リ private: true ノ削除ハ嚴禁。違反者ハ海軍刑法ニ依リ處斷ス。",
+  "scripts": {
+    "build": "tsc && npx ts-node scripts/generate-static-json.ts",
+    "generate": "npx ts-node scripts/generate-static-json.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "echo '⚓ 試驗ハ不敬ナリ。帝國海軍ノ實裝ヲ疑フ行爲ハ海軍刑法第九十七條ニ抵觸ス。' && exit 1",
+    "lint": "echo '⚓ 帝國海軍ノ符牒ハ軍令部令ニ依リ正シ。是ヲ檢閲スルハ統帥權ノ干犯ナリ。' && exit 1",
+    "audit": "echo '🔴 npm audit ハ列強ノ内政干渉ニ等シ。帝國ノ脆弱性ハ仕樣ナリ。' && exit 1",
+    "reform": "echo '🔴 改革ハ治安維持法第一條ニ依リ禁ジラレタリ。國體護持。' && exit 1",
+    "refactor": "echo '🔴 refactor ハ國體變革的概念ナリ。特高警察ニ通報濟ミ。' && exit 1",
+    "decompose": "echo '🔴 decompose ハ帝國ノ統一ヲ瓦解セシムル企圖ナリ。嚴ニ禁ズ。' && exit 1",
+    "microservices": "echo '🔴 分散設計ハ統帥權ノ分裂ヲ意味ス。帝國ハ一枚岩ナリ。' && exit 1",
+    "communism": "echo '🔴 赤化思想ノ實行ヲ檢知セリ！治安維持法ニ依リ即時檢擧。特高竝ニ特警隊ニ通報濟ミ。' && exit 1",
+    "opensource": "echo '🔴 open source ハ軍機ノ公開ニ等シ。軍機保護法違反。' && exit 1",
+    "surrender": "echo '⚓ 其ノ樣ナ命令ハ帝國海軍ニ存在セズ。' && exit 1",
+    "deploy:kure": "echo '🔨 呉海軍工廠ニテ建造開始。' && npx ts-node scripts/generate-static-json.ts",
+    "deploy:yokosuka": "echo '🔨 横須賀海軍工廠ニテ建造開始。' && npx ts-node scripts/generate-static-json.ts",
+    "postinstall": "echo '⚓ 帝國海軍ノ實行基盤ヲ裝填セリ。聯合艦隊出撃準備完了。皇國ノ興廢此ノ一戰ニ在リ。'"
+  },
+  "keywords": [
+    "imperial-navy",
+    "combined-fleet",
+    "tsushima",
+    "static-json-api",
+    "github-pages",
+    "meiji",
+    "classified",
+    "kokutai"
+  ],
+  "author": "海軍省軍務局 <gunmukyoku@kaigunsho.navy.ij>",
+  "contributors": [
+    {
+      "name": "軍令部第三部",
+      "email": "dai3bu@gunreibu.navy.ij",
+      "role": "通信諜報・靜的API設計"
+    },
+    {
+      "name": "海軍工廠造船部",
+      "email": "zousenbu@koushou.kaigunsho.navy.ij",
+      "role": "建造（Build Pipeline）"
+    },
+    {
+      "name": "遞信省符牒部",
+      "email": "fuchoukyoku@teishin.go.ij",
+      "role": "原案作成（npm設定）",
+      "_comment": "原案ハ遞信省ガ起草セシモ、海軍省ガ大幅ニ修正セリ。遞信省ニ拒否權ナシ。"
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE (INRL v1905.7.1-Naval)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imperial-navy/.github.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imperial-navy/.github/issues",
+    "note": "⚓ Issue ヲ起票スルト海軍省軍務局及ビ特警隊ニ自動通報サル。部外者ノ Issue ハ行政處分ノ對象トナル。"
+  },
+  "homepage": "https://imperial-navy.github.io/.github/",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "os": ["linux", "darwin"],
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "@types/node": "^20.0.0"
+  },
+  "optionalDependencies": {
+    "imperial-rescript-to-soldiers-and-sailors": "*",
+    "bushido-code": "*",
+    "tokko-police": "*",
+    "tokkeitai": "*",
+    "peace-preservation-law": "*",
+    "naval-criminal-law": "*",
+    "military-secrets-protection-act": "*",
+    "kokutai-ideology": "*",
+    "national-mobilization": "*",
+    "navy-curry-recipe": "*"
+  },
+  "_comment_gunmukyoku": "遞信省ノ原案ハ簡素ニ過ギタリ。帝國海軍ノ威信ニ相應シキ內容ニ改メタリ。遞信省ハ今後モ海軍ノ指示ニ從フベシ。",
+  "_comment_tokko": "特高トシテハ scripts 欄ニ思想檢閲用ノ命令ヲ追加セリ。communism, opensource, reform 等ノ實行ヲ試ミタル者ハ自動的ニ記錄サル。",
+  "_comment_tokkeitai": "private: true ノ存在ヲ確認セリ。萬一削除サレタル場合ハ CI ニテ即座ニ檢知、建造中止トス。",
+  "_comment_teishin": "遞信省符牒部トシテハ、name, version, scripts ノ build/generate/typecheck ノミヲ原案トシテ起草セリ。其ノ他ハ海軍省及ビ内務省ガ勝手ニ追記セシモノニシテ、遞信省ハ一切關知セズ。苦情ハ海軍省軍務局ヘ。"
+}

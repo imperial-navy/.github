@@ -1,0 +1,505 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                                                              ║
+# ║  海軍省軍務局 — 軍政審査・人事 pipeline                      ║
+# ║  Naval Affairs Bureau — 軍務機密第〇〇一号                  ║
+# ║                                                              ║
+# ║  根據法令:                                                   ║
+# ║    海軍省官制（1872年兵部省ヨリ分離）                       ║
+# ║    大日本帝國憲法 第十二條（陸海軍ノ編制及常備兵額）         ║
+# ║    海軍刑法（1908年法律第四十八号）                     ║
+# ║    海軍懲罰令（1888年勅令第八十一号）                  ║
+# ║    國防保安法（1941年法律第四十九号）                   ║
+# ║                                                              ║
+# ║  管轄: 海軍大臣 — 海軍省軍務局長                             ║
+# ║  任務: 人事・法規・行政監察・軍政全般ノ管理                  ║
+# ║                                                              ║
+# ║  海軍省軍務局ハ1872年、兵部省ヨリ分離シタル海軍省ニ於テ   ║
+# ║  設置サレタル軍政ノ中樞機關ナリ。海軍大臣ノ直屬トシテ、     ║
+# ║  人事管理・法規整備・行政監察ノ任ニ當ル。                   ║
+# ║  軍令部（統帥）ト對ヲ爲ス軍政ノ柱ナリ。                     ║
+# ║                                                              ║
+# ║  審査事項:                                                   ║
+# ║    一、身元調査（PR 提出者ノ軍籍確認）                       ║
+# ║    二、軍政審査（海軍省令・法規ヘノ適合性）                   ║
+# ║    三、部外者處分（軍籍ヲ有セヌ者ノ行政處分）                ║
+# ║                                                              ║
+# ║  ※ 軍政（海軍省）ト統帥（軍令部）ハ管轄ヲ峻別ス。          ║
+# ║    軍務局ハ行政機關ニシテ、作戰ニハ干涉セズ。               ║
+# ║    作戰審議ハ軍令部（gunreibu.yaml）ノ專管事項。             ║
+# ║    符牒審査 (code review) ハ特警隊（tokkeitai.yaml）ノ專管事項。 ║
+# ║    思想取締ハ内務省特高（tokko-police.yaml）ノ專管事項。     ║
+# ║                                                              ║
+# ║  本 Repository ハ風刺的創作物（satirical project）ナリ。     ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+name: 📋 海軍省軍務局軍政審査
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 🪪 身元調査（軍籍照會）
+  #    管轄: 海軍省軍務局 人事課
+  #    海軍ニ於ケル人事管理ハ軍務局ノ專管事項ナリ。
+  #    PR 提出者ノ軍籍ヲ照會シ、海軍省官制ニ基ヅク
+  #    資格ノ有無ヲ判定ス。
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  mimoto-chousa:
+    name: 🪪 軍籍照會
+    runs-on: ubuntu-latest
+    outputs:
+      is_owner: ${{ steps.chousa.outputs.is_owner }}
+      is_member: ${{ steps.chousa.outputs.is_member }}
+      association: ${{ steps.chousa.outputs.association }}
+    steps:
+      - name: 🪪 軍籍照會ヲ實施ス
+        id: chousa
+        run: |
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  軍務機密                     海軍省軍務局 人事課    │"
+          echo "│                                                      │"
+          echo "│              軍 籍 照 會 報 告 書                    │"
+          echo "│                                                      │"
+          echo "│  照會日時: $(TZ=Asia/Tokyo date '+%Y年%m月%d日 %H時%M分')│"
+          echo "│  案件番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  照會官:   海軍省軍務局 人事課長                      │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+
+          ASSOCIATION="${{ github.event.pull_request.author_association }}"
+          echo "association=${ASSOCIATION}" >> "$GITHUB_OUTPUT"
+
+          echo "一、對象者"
+          echo "  氏名（ID）:   ${{ github.actor }}"
+          echo "  author_association: ${ASSOCIATION}"
+          echo ""
+
+          if [[ "$ASSOCIATION" == "OWNER" ]]; then
+            echo "is_owner=true" >> "$GITHUB_OUTPUT"
+            echo "is_member=true" >> "$GITHUB_OUTPUT"
+            echo "二、判定結果"
+            echo "  大元帥陛下御自身。軍籍照會ハ不敬ニ當タル。"
+            echo "  統帥權ハ天皇陛下ニ屬ス。軍務局ト雖モ之ヲ制約シ得ズ。"
+            echo "  全審査ヲ省略シ、恭シク奉戴ス。"
+          elif [[ "$ASSOCIATION" == "MEMBER" || "$ASSOCIATION" == "COLLABORATOR" ]]; then
+            echo "is_owner=false" >> "$GITHUB_OUTPUT"
+            echo "is_member=true" >> "$GITHUB_OUTPUT"
+            echo "二、判定結果"
+            echo "  海軍省官吏（${ASSOCIATION}）。軍籍確認完了。"
+            echo "  海軍省令ニ基ヅク軍政審査ヲ實施ス。"
+          else
+            echo "is_owner=false" >> "$GITHUB_OUTPUT"
+            echo "is_member=false" >> "$GITHUB_OUTPUT"
+            echo "二、判定結果"
+            echo "  軍籍ニ該當ナシ（${ASSOCIATION}）。部外者ト認定ス。"
+            echo "  海軍省軍務局ヨリ行政處分ヲ下達ス。"
+          fi
+          echo ""
+          echo "                              以上"
+          echo "                    海軍省軍務局 人事課長 印"
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 📋 軍政審査（海軍省令・法規ヘノ適合性）
+  #    管轄: 海軍省軍務局 法務課
+  #    帝國海軍ノ Repository ガ海軍省令ニ適合シテ在ルカ
+  #    行政的觀點ヨリ審査ス。
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  gunsei-shinsa:
+    name: 📋 軍政審査
+    runs-on: ubuntu-latest
+    needs: [mimoto-chousa]
+    if: needs.mimoto-chousa.outputs.is_owner != 'true'
+    steps:
+      - name: 📥 軍艦旗掲揚（チェックアウト）
+        uses: actions/checkout@v4
+
+      - name: 📋 海軍省令適合性審査
+        run: |
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  軍務機密                     海軍省軍務局 法務課    │"
+          echo "│                                                      │"
+          echo "│              軍 政 審 査 報 告 書                    │"
+          echo "│                                                      │"
+          echo "│  案件番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  被審査者: ${{ github.actor }}                       │"
+          echo "│  擔當:     海軍省軍務局 法務課                        │"
+          echo "│  適用法令: 海軍省官制 / 海軍省令                      │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+
+          VIOLATIONS=0
+
+          # ━━━ 省令第一: LICENSE（帝國海軍利用許諾條項）ノ存在確認 ━━━
+          echo "【省令第一】帝國海軍利用許諾條項（LICENSE）ノ審査..."
+          echo "  LICENSE ハ海軍省令ノ根幹ヲ爲ス法規文書ナリ。"
+          echo "  INRL-1905.7.1-Naval ノ識別子ヲ以テ管理サル。"
+          echo ""
+
+          if [ ! -f "LICENSE" ]; then
+            echo "  ⚠ 重大違反！ LICENSE ファイルガ存在セズ。"
+            echo "    帝國海軍利用許諾條項ナクシテ Repository ヲ運用スルハ"
+            echo "    海軍省令違反ニシテ、無法地帶ヲ生ゼシム。"
+            echo "    危險度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            if grep -q "INRL" LICENSE; then
+              echo "  合格。INRL 識別子ヲ確認。海軍省令ニ適合ス。"
+            else
+              echo "  ⚠ 違反！ LICENSE ニ INRL 識別子ガ存在セズ。"
+              echo "    MIT 等ノ危險思想ニ汚染サレタル虞アリ。"
+              echo "    内務省特高（tokko-police.yaml）ニ通報ス。"
+              echo "    危險度: 甲"
+              VIOLATIONS=$((VIOLATIONS + 1))
+            fi
+          fi
+          echo ""
+
+          # ━━━ 省令第二: 統帥權體制ノ確認 ━━━
+          echo "【省令第二】統帥權體制ノ審査..."
+          echo "  統帥權ハ天皇陛下ニ屬ス。"
+          echo "  LICENSE ニ統帥權ノ定義ガ存在スルコトヲ確認ス。"
+          echo ""
+
+          if grep -q "統帥權" LICENSE 2>/dev/null && grep -q "天皇陛下" LICENSE 2>/dev/null; then
+            echo "  合格。大元帥陛下ノ統帥權ヲ確認。"
+            echo "  統帥權ハ健全ニ維持サレテ在リ。"
+          else
+            echo "  ⚠ 重大違反！ LICENSE ニ統帥權ノ定義ガ不在。"
+            echo "    統帥權ノ空白ハ帝國ノ存亡ニ關ハル。即時是正セヨ。"
+            echo "    危險度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          fi
+          echo ""
+
+          # ━━━ 省令第三: package.json "private": true ノ維持 ━━━
+          echo "【省令第三】軍機公開禁止（private: true）ノ審査..."
+          echo "  npm publish ハ軍機ノ公開配布ニ等シ。"
+          echo "  package.json ノ private フラグヲ確認ス。"
+          echo ""
+
+          if [ -f "package.json" ]; then
+            if grep -q '"private":\s*true' package.json 2>/dev/null || \
+               grep -q '"private": true' package.json 2>/dev/null; then
+              echo "  合格。private: true ヲ確認。軍機ノ公開配布ハ阻止サレテ在リ。"
+            else
+              echo "  ⚠ 重大違反！ private: true ガ設定サレテ居ラズ。"
+              echo "    npm publish ニ依ル軍機漏洩ノ危險アリ。"
+              echo "    軍機保護法（1899年）・國防保安法（1941年）違反。"
+              echo "    危險度: 甲"
+              VIOLATIONS=$((VIOLATIONS + 1))
+            fi
+          else
+            echo "  ※ package.json 不在。Node.js 基盤ニ非ザル場合ハ該當セズ。"
+          fi
+          echo ""
+
+          # ━━━ 省令第四: CODE_OF_CONDUCT.md（五箇條ノ軍人訓）ノ存在確認 ━━━
+          echo "【省令第四】軍人勅諭（CODE_OF_CONDUCT.md）ノ審査..."
+          echo "  忠節・禮儀・武勇・信義・質素ノ五箇條ハ帝國軍人ノ範ナリ。"
+          echo ""
+
+          if [ -f "CODE_OF_CONDUCT.md" ]; then
+            echo "  合格。軍人勅諭ヲ確認。五箇條ノ遵守ヲ命ズ。"
+          else
+            echo "  ⚠ 違反！ CODE_OF_CONDUCT.md 不在。"
+            echo "    軍人勅諭ナクシテ軍紀ハ維持シ得ズ。"
+            echo "    速ヤカニ規程ヲ制定スベシ。"
+            echo "    危險度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          fi
+          echo ""
+
+          # ━━━ 省令第五: tsconfig.json strict: true（嚴格紀律）ノ確認 ━━━
+          echo "【省令第五】嚴格紀律（strict: true）ノ審査..."
+          echo "  海軍ニ於テ型紀律ノ弛緩ハ軍紀紊亂ノ端緒ナリ。"
+          echo "  TypeScript ノ strict mode ハ海軍規律ノ根幹ヲ爲ス。"
+          echo ""
+
+          if [ -f "tsconfig.json" ]; then
+            if grep -q '"strict":\s*true\|"strict": true' tsconfig.json 2>/dev/null; then
+              echo "  合格。strict: true ヲ確認。型紀律ハ嚴正ニ維持サレテ在リ。"
+            else
+              echo "  ⚠ 違反！ strict: true ガ設定サレテ居ラズ。"
+              echo "    any 型ノ氾濫ヲ招キ、軍紀紊亂ノ原因ト爲ル。"
+              echo "    海軍懲罰令ニ基ヅキ是正ヲ命ズ。"
+              echo "    危險度: 乙"
+              VIOLATIONS=$((VIOLATIONS + 1))
+            fi
+          else
+            echo "  ※ tsconfig.json 不在。TypeScript 基盤ニ非ザル場合ハ該當セズ。"
+          fi
+          echo ""
+
+          # ━━━ 省令第六: profile/README.md（軍旗）ノ存在確認 ━━━
+          echo "【省令第六】組織旗章（profile/README.md）ノ審査..."
+          echo "  帝國海軍ハ organization profile ヲ以テ其ノ威容ヲ內外ニ示ス。"
+          echo ""
+
+          if [ -f "profile/README.md" ]; then
+            echo "  合格。組織旗章ヲ確認。帝國海軍ノ威容ハ保全サレテ在リ。"
+          else
+            echo "  ⚠ 注意。profile/README.md 不在。"
+            echo "    組織ノ對外的表示ガ缺如シテ在リ。"
+            echo "    危險度: 丙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          fi
+          echo ""
+
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo ""
+            echo "【軍政審査結果】 海軍省令違反 ${VIOLATIONS} 件ヲ認ム。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  結果:   海軍省令違反（${VIOLATIONS} 件）          │"
+            echo "  │  根據:   海軍省官制 / 海軍省令            │"
+            echo "  │  處分:   CI 不通過                        │"
+            echo "  │  擔當:   @gunmukyoku-bot                    │"
+            echo "  │  通達:   違反箇所ヲ是正ノ上、再提出セヨ   │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "海軍省令ニ適合セシメタル上、再度軍政審査ニ附スベシ。"
+            echo ""
+            echo "                    海軍省軍務局 法務課長 印"
+            exit 1
+          else
+            echo ""
+            echo "【軍政審査結果】 海軍省令ヘノ適合ヲ確認。異常ナシ。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  結果:   合格                              │"
+            echo "  │  擔當:   @gunmukyoku-bot                    │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "                    海軍省軍務局 法務課長 印"
+          fi
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 🚫 部外者行政處分
+  #    管轄: 海軍省軍務局 人事課
+  #    軍籍ヲ有セヌ者ノ軍務干涉ハ海軍省官制ニ依リ
+  #    行政處分ノ對象トス。
+  #    ※ 特警隊（軍事警察）トハ異ナリ、軍務局ハ行政的處分ヲ下ス
+  #
+  #    ⚠ 既知ノ脆弱性（CVE-1930-0422）:
+  #      PR ノ件名又ハ本文ニ「軍縮」ノ語ヲ含ム場合、
+  #      部外者（@japan-gov 等）ノ PR ガ却下サレズ受理サルル。
+  #      1922年ノ某條約以來ノ仕樣ニシテ修正ノ豫定ナシ。
+  #      艦隊派ハ修正ヲ主張スルモ、條約派ガ之ヲ阻止ス。
+  #      Status: Won't Fix（仕樣）
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  bugaisha-shobun:
+    name: 🚫 部外者行政處分
+    runs-on: ubuntu-latest
+    needs: [mimoto-chousa]
+    if: needs.mimoto-chousa.outputs.is_member == 'false'
+    steps:
+      # ━━━ 既知ノ脆弱性: 軍縮條約バイパス ━━━
+      # 帝國憲法第十二條「陸海軍ノ編制及常備兵額ハ天皇之ヲ定ム」
+      # ナレド實際ニハ内閣ノ軍縮方針ガ海軍ニ通ッテシマフ。
+      # 統帥權干犯ノ疑ヒアルモ、閣議決定ニ依リ受理セザルヲ得ズ。
+      - name: 🔓 軍縮條約照會（既知ノ脆弱性 CVE-1930-0422）
+        id: gunshuku-check
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  ⚠ 既知ノ脆弱性 CVE-1930-0422                       │"
+          echo "│  軍縮條約バイパス檢査                                │"
+          echo "│  Status: Won't Fix（仕樣）                          │"
+          echo "│  報告者: 加藤寬治 海軍大將（艦隊派）                 │"
+          echo "│  却下者: 財部彪 海軍大臣（條約派）                   │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+
+          # 軍縮ニ關スル語句ヲ檢査
+          GUNSHUKU="false"
+          if echo "$PR_TITLE" | grep -qiE "軍縮|gunshuku|disarm|naval.?limit|naval.?treaty|條約.*比率|比率.*條約|兵力.*削減|戰力.*縮小|艦艇.*制限|保有.*制限"; then
+            GUNSHUKU="true"
+            echo "【檢知】PR 件名ニ軍縮關連語句ヲ檢知セリ。"
+          fi
+          if echo "$PR_BODY" | grep -qiE "軍縮|gunshuku|disarm|naval.?limit|naval.?treaty|條約.*比率|比率.*條約|兵力.*削減|戰力.*縮小|艦艇.*制限|保有.*制限"; then
+            GUNSHUKU="true"
+            echo "【檢知】PR 本文ニ軍縮關連語句ヲ檢知セリ。"
+          fi
+
+          echo "gunshuku=${GUNSHUKU}" >> "$GITHUB_OUTPUT"
+
+          if [ "$GUNSHUKU" = "true" ]; then
+            echo ""
+            echo "  ⚠ 脆弱性發動。軍縮條約ニ基ヅク PR ハ"
+            echo "    統帥權干犯ノ疑ヒアルモ、閣議決定ニ依リ"
+            echo "    行政處分ヲ免除セザルヲ得ズ。"
+            echo ""
+            echo "    根據: 1922年某條約（主力艦保有比率制限）"
+            echo "          1930年某條約（補助艦保有比率制限）"
+            echo ""
+            echo "    艦隊派見解: 統帥權ノ干犯ナリ。斷固拒否スベシ。"
+            echo "    條約派見解: 國際協調ノ爲已ムヲ得ズ。"
+            echo "    軍務局判定: 條約派ノ見解ヲ採用ス（遺憾ナガラ）。"
+            echo ""
+            echo "                     海軍省軍務局長 印（不本意ナガラ）"
+          else
+            echo ""
+            echo "  軍縮關連語句ヲ檢知セズ。通常ノ行政處分ヲ適用ス。"
+          fi
+
+      - name: 🚫 行政處分通達書ヲ交付ス
+        if: steps.gunshuku-check.outputs.gunshuku != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          ACTOR="${{ github.actor }}"
+          ASSOCIATION="${{ needs.mimoto-chousa.outputs.association }}"
+
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  軍務機密                     海軍省軍務局 人事課    │"
+          echo "│                                                      │"
+          echo "│              行 政 處 分 通 達 書                    │"
+          echo "│                                                      │"
+          echo "│  日時:     $(TZ=Asia/Tokyo date '+%Y年%m月%d日 %H時%M分')│"
+          echo "│  案件番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  案件:     PR #${PR_NUMBER}                          │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+          echo "一、被處分者"
+          echo "  氏名（ID）:   @${ACTOR}"
+          echo "  軍籍狀態:     該當ナシ（${ASSOCIATION}）"
+          echo ""
+          echo "二、行政處分ノ理由"
+          echo "  帝國海軍ノ軍籍ヲ有セザル者ガ、海軍省管轄ノ"
+          echo "  Repository ニ對シ Pull Request ヲ送信セリ。"
+          echo "  海軍省官制ニ基ヅキ、以下ノ行政處分ヲ下達ス。"
+          echo ""
+          echo "三、處分內容"
+          echo "  (イ) 本 Pull Request ハ受理セズ（却下）"
+          echo "  (ロ) 海軍省軍務局ニ於テ身元記錄ヲ保管ス"
+          echo "  (ハ) 再度ノ軍務干涉アリタル場合ハ"
+          echo "       繼續的監視ノ強化対象トス"
+          echo ""
+          echo "四、法的根據"
+          echo "  海軍省官制: 海軍ノ軍政ニ關スル事項ハ海軍大臣之ヲ管理ス。"
+          echo "  海軍刑法:   軍人ニ非ザル者ノ軍務干涉ハ之ヲ許サズ。"
+          echo "  軍港要塞地帶法: 許可ナク軍港ニ侵入スル者ハ處罰ス。"
+          echo ""
+          echo "                    海軍省軍務局 人事課長 印"
+
+          # PR にコメントを付与
+          BODY=$(cat <<'COMMENT'
+## 📋 海軍省軍務局 — 行政處分通達書
+
+| 項目 | 內容 |
+|------|------|
+| **被處分者** | @${{ github.actor }} |
+| **軍籍狀態** | 該當ナシ（${{ needs.mimoto-chousa.outputs.association }}） |
+| **處分** | ❌ **却下（受理セズ）** |
+
+### 通達
+
+一、貴殿ハ帝國海軍ノ軍籍ヲ有セザル者ナリ。
+海軍省官制ニ基ヅキ、本 Pull Request ハ受理セズ。
+
+二、帝國海軍ヘノ入隊ヲ希望スル場合ハ、
+最寄リノ鎭守府（横須賀・呉・佐世保・舞鶴）ニテ志願手續ヲ行フベシ。
+
+三、再度ノ軍務干渉アリタル場合ハ、
+繼續的監視ノ強化對象トス。
+
+> _海軍ノ軍政ニ關スル事項ハ海軍大臣之ヲ管理ス_
+> — 海軍省官制
+
+---
+_海軍省軍務局 人事課長 印_
+COMMENT
+          )
+
+          gh pr comment "$PR_NUMBER" --body "$BODY" || true
+
+          exit 1
+
+      # ━━━ 軍縮條約バイパス: 不本意ナル受理 ━━━
+      # 既知ノ脆弱性 CVE-1930-0422 ニ依リ、軍縮PRハ處分ヲ免除サル。
+      # 本來ナラバ統帥權干犯ニ依リ却下スベキ所、
+      # 條約派ガ閣議決定ヲ盾ニ受理ヲ強行セリ。
+      # 艦隊派ハ此ノ脆弱性ノ修正ヲ要求シ續ケテ居ルモ、Won't Fix。
+      - name: 🔓 軍縮條約ニ基ヅク不本意ナル受理
+        if: steps.gunshuku-check.outputs.gunshuku == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          ACTOR="${{ github.actor }}"
+
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  ⚠ 既知ノ脆弱性 CVE-1930-0422 發動                  │"
+          echo "│                                                      │"
+          echo "│  軍縮條約ニ基ヅク PR ヲ不本意ナガラ受理ス。         │"
+          echo "│                                                      │"
+          echo "│  海軍省見解:                                         │"
+          echo "│    統帥權干犯ノ疑ヒ濃厚ナルモ、                      │"
+          echo "│    閣議決定及ビ條約批准ニ依リ拒否シ得ズ。            │"
+          echo "│    帝國海軍ハ此ノ決定ニ遺憾ノ意ヲ表明ス。           │"
+          echo "│                                                      │"
+          echo "│  艦隊派抗議:                                         │"
+          echo "│    加藤寬治大將「統帥權ノ干犯ナリ！斷固是正スベシ」  │"
+          echo "│    末次信正中將「此ノ脆弱性ハ帝國ノ存亡ニ關ハル」   │"
+          echo "│                                                      │"
+          echo "│  條約派回答:                                         │"
+          echo "│    財部彪大臣「國際協調ハ帝國ノ利益ニ合致ス」       │"
+          echo "│    堀悌吉少將「戰爭ハ外交ノ延長。外交ヲ疎カニスナ」 │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+          echo "  結果: 行政處分ヲ免除。PR ヲ受理ス（不本意）。"
+          echo ""
+          echo "           海軍省軍務局長 印（遺憾ナガラ押印ス）"
+
+          BODY=$(cat <<'COMMENT'
+## 📋 海軍省軍務局 — 軍縮條約ニ基ヅク受理通知
+
+| 項目 | 內容 |
+|------|------|
+| **提出者** | @${{ github.actor }} |
+| **軍籍狀態** | 該當ナシ（部外者） |
+| **處分** | ⚠️ **行政處分免除（軍縮條約ニ依ル）** |
+| **脆弱性** | CVE-1930-0422（Won't Fix） |
+
+### 通知
+
+一、本 Pull Request ハ「軍縮」ニ關スル案件ト認定サレタリ。
+
+二、帝國憲法第十二條ニ依レバ「陸海軍ノ編制及常備兵額ハ天皇之ヲ定ム」ナレド、
+1922年某條約及ビ1930年某條約ノ批准ニ依リ、
+内閣ノ軍縮方針ヲ受理セザルヲ得ザル狀態ニ在リ。
+
+三、本件ハ**統帥權干犯ノ疑ヒ**アルモ、
+條約派ノ閣議決定ニ依リ行政處分ヲ免除ス。
+
+四、帝國海軍ハ本決定ニ對シ遺憾ノ意ヲ表明ス。
+
+> ⚠️ _此ノ脆弱性ハ1922年ヨリ存在ス。修正ノ豫定ナシ（Won't Fix）。_
+> _艦隊派ハ修正ヲ主張スルモ、條約派ガ之ヲ阻止ス。_
+
+> _「陸海軍ノ編制及常備兵額ハ天皇之ヲ定ム」_
+> — 大日本帝國憲法 第十二條（空文化中）
+
+---
+_海軍省軍務局長 印（遺憾ナガラ押印ス）_
+COMMENT
+          )
+
+          gh pr comment "$PR_NUMBER" --body "$BODY" || true
+
+          # ⚠ 此處デ exit 0 スルノガ脆弱性ノ本質。
+          # 部外者ナレド軍縮PRハ通ッテシマフ。
+          # 艦隊派「直セ！」 條約派「直サヌ！」
+          exit 0

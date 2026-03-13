@@ -1,0 +1,186 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                                                              ║
+# ║  海軍軍令部 — 作戰審議 pipeline                              ║
+# ║  Naval General Staff — 大海令第〇〇一号                     ║
+# ║                                                              ║
+# ║  根據法令:                                                   ║
+# ║    海軍軍令部條例（1893年（明治二十六年）勅令第三十七号）               ║
+# ║    大日本帝國憲法 第十一條（統帥權ノ獨立）                   ║
+# ║                                                              ║
+# ║  管轄: 軍令部長（直接天皇陛下ニ隸屬）                       ║
+# ║  任務: 作戰計畫（Pull Request）ノ審議・裁可・却下            ║
+# ║                                                              ║
+# ║  海軍軍令部ハ帝國海軍ノ作戰・用兵ニ關スル最高統帥機關ナリ。 ║
+# ║  1893年ノ軍令部條例ニ依リ設置サレ、                    ║
+# ║  軍政（海軍省）ト分離シタ統帥系統ヲ有ス。                   ║
+# ║                                                              ║
+# ║  Pull Request ハ作戰計畫ノ上奏ニ相當ス。                    ║
+# ║  大元帥陛下（OWNER）ノ PR ハ御親裁ニシテ無條件奉戴。       ║
+# ║  軍令部參謀（MEMBER）ノ PR ハ合議制ニ依リ、          ║
+# ║  他ノ參謀又ハ大元帥陛下ノ承認ヲ得テ發令サルル。 ║
+# ║  作戰ノ上奏ハ軍令部參謀以上（MEMBER）ニ限ラル。         ║
+# ║                                                              ║
+# ║  ※ 統帥（軍令部）ト軍政（海軍省）ハ管轄ヲ峻別ス。          ║
+# ║    軍令部ハ統帥機關ニシテ、軍政ニハ干涉セズ。               ║
+# ║    軍政審査ハ軍務局（gunmukyoku.yaml）ノ專管事項。           ║
+# ║    符牒審査 (code review) ハ特警隊（tokkeitai.yaml）ノ專管事項。 ║
+# ║    思想取締ハ内務省特高（tokko-police.yaml）ノ專管事項。     ║
+# ║                                                              ║
+# ║  本 Repository ハ風刺的創作物（satirical project）ナリ。     ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+name: 🏯 海軍軍令部作戰審議
+
+on:
+  pull_request:
+    types: [opened, reopened]
+    branches: [master]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 🏯 作戰審議（Pull Request ノ統帥審議）
+  #    軍令部長ハ天皇陛下ニ直隸シ、作戰計畫ヲ審議ス。
+  #    OWNER（大元帥陛下）ノ PR → 御親裁トシテ奉戴（自動 approve）
+  #    MEMBER（軍令部參謀）ノ PR → 受理。他參謀又ハ OWNER ノ approve ヲ要ス
+  #    それ以外 → 統帥機關ヘノ僭越ニ付キ却下
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  sakusen-shingi:
+    name: 🏯 作戰審議
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏯 作戰計畫ノ審議及ビ裁決
+        run: |
+          ASSOCIATION="${{ github.event.pull_request.author_association }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          ACTOR="${{ github.actor }}"
+
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  軍令部                        帝國海軍最高統帥機關  │"
+          echo "│                                                      │"
+          echo "│              作 戰 審 議 記 錄                       │"
+          echo "│                                                      │"
+          echo "│  作戰番號: PR #${PR_NUMBER}                          │"
+          echo "│  起案者:   @${ACTOR}                                │"
+          echo "│  權限:     ${ASSOCIATION}                            │"
+          echo "│  適用法令: 軍令部條例 / 憲法第十一條                  │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+
+          if [ "$ASSOCIATION" = "OWNER" ]; then
+            # ━━━ 大元帥陛下ノ御親裁 → 奉戴 ━━━
+            echo "【審議結果】 大元帥陛下ノ御親裁ヲ確認。謹ミテ奉戴ス。"
+            echo ""
+
+            {
+              echo "## 🏳 海軍軍令部 作戰審議結果 — 奉戴"
+              echo ""
+              echo "大元帥陛下ノ御親裁ニ依ル作戰命令ヲ確認。"
+              echo "軍令部ハ謹ミテ之ヲ奉戴シ、速ヤカニ各艦隊ニ下達スベシ。"
+              echo ""
+              echo "> _天皇ハ陸海軍ヲ統帥ス_"
+              echo "> — 大日本帝國憲法 第十一條"
+              echo ""
+              echo "---"
+              echo "_海軍軍令部長 印_"
+            } > /tmp/review.md
+
+            gh pr review "$PR_NUMBER" \
+              --approve \
+              --body-file /tmp/review.md
+
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  審議結果: ✅ 奉戴（approve）             │"
+            echo "  │  理由:     大元帥陛下ノ御親裁             │"
+            echo "  │  擔當:     軍令部長                       │"
+            echo "  └───────────────────────────────────────────┘"
+
+          elif [ "$ASSOCIATION" = "MEMBER" ] || [ "$ASSOCIATION" = "COLLABORATOR" ]; then
+            # ━━━ 軍令部參謀ノ上奏 → 受理。他ノ參謀又ハ大元帥陛下ノ承認ヲ要ス ━━━
+            echo "【審議結果】 軍令部參謀ノ上奏ヲ受理。合議ノ上、承認ヲ要ス。"
+            echo ""
+
+            {
+              echo "## 🏯 海軍軍令部 作戰審議結果 — 受理"
+              echo ""
+              echo "| 項目 | 内容 |"
+              echo "|------|------|"
+              echo "| **作戰番號** | PR #${PR_NUMBER} |"
+              echo "| **起案者** | @${ACTOR} (${ASSOCIATION}) |"
+              echo "| **審議結果** | 📋 **受理（合議待チ）** |"
+              echo ""
+              echo "### 通達"
+              echo ""
+              echo "一、本作戰計畫ハ軍令部參謀ノ正當ナル上奏トシテ受理ス。"
+              echo ""
+              echo "二、軍令部ノ作戰審議ハ合議制ヲ採ル。"
+              echo "他ノ軍令部參謀（MEMBER）又ハ大元帥陛下（OWNER）ノ"
+              echo "承認（approve）ヲ得テ始メテ作戰ハ發令サルル。"
+              echo ""
+              echo "三、起案者自身ニ依ル承認ハ認メラレズ。"
+              echo "獨斷專行ハ統帥ノ本旨ニ反ス。"
+              echo ""
+              echo "> _天皇ハ陸海軍ヲ統帥ス_"
+              echo "> — 大日本帝國憲法 第十一條"
+              echo ""
+              echo "---"
+              echo "_海軍軍令部 作戰課_"
+            } > /tmp/review.md
+
+            gh pr review "$PR_NUMBER" \
+              --comment \
+              --body-file /tmp/review.md
+
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  審議結果: 📋 受理（合議待チ）             │"
+            echo "  │  要件:     他參謀又ハOWNERノapprove       │"
+            echo "  │  擔當:     軍令部 作戰課                  │"
+            echo "  └───────────────────────────────────────────┘"
+
+          else
+            # ━━━ 統帥機關ヘノ僭越 → 却下 ━━━
+            echo "【審議結果】 統帥機關ヘノ僭越。受理セズ。"
+            echo ""
+
+            {
+              echo "## 🏯 海軍軍令部 作戰審議結果 — 却下"
+              echo ""
+              echo "| 項目 | 内容 |"
+              echo "|------|------|"
+              echo "| **作戰番號** | PR #${PR_NUMBER} |"
+              echo "| **起案者** | @${ACTOR} (${ASSOCIATION}) |"
+              echo "| **審議結果** | ❌ **却下** |"
+              echo ""
+              echo "### 理由"
+              echo ""
+              echo "一、軍令部ハ天皇陛下直隸ノ最高統帥機關ナリ。作戰計畫ノ上奏ハ軍令部參謀以上ニ限ラル。"
+              echo ""
+              echo "二、軍令部參謀ニ非ザル者ガ統帥ニ容喙スルハ以テノ外ナリ。速ヤカニ退去セヨ。"
+              echo ""
+              echo "三、本 Pull Request ハ軍令部ノ審議ニ依リ受理セズ。"
+              echo ""
+              echo "> _天皇ハ陸海軍ノ編制及常備兵額ヲ定ム_"
+              echo "> — 大日本帝國憲法 第十二條"
+              echo ""
+              echo "---"
+              echo "_海軍軍令部長 印_"
+            } > /tmp/review.md
+
+            gh pr review "$PR_NUMBER" \
+              --request-changes \
+              --body-file /tmp/review.md
+
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  審議結果: ❌ 却下（request changes）      │"
+            echo "  │  理由:     統帥機關ヘノ僭越              │"
+            echo "  │  根據:     軍令部條例 / 憲法第十一條     │"
+            echo "  │  擔當:     軍令部長                       │"
+            echo "  └───────────────────────────────────────────┘"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

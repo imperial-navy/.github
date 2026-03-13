@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>兵器情報 — 大日本帝國海軍 廣報部</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="static-api.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>💣 帝國海軍 兵器情報</h1>
+  <div class="subtitle">Imperial Japanese Navy — Weapons Registry</div>
+</header>
+
+<nav>
+  <a href="index.html">總 覽</a>
+  <a href="kantei.html">艦 艇</a>
+  <a href="chinjufu.html">鎭守府</a>
+  <a href="senreki.html">戰 歷</a>
+  <a href="sentou-shouhou.html">戰鬪詳報</a>
+  <a href="koukuki.html">航空機</a>
+  <a href="heiki.html" class="active">兵 器</a>
+  <a href="hensei.html">編 制</a>
+  <a href="soshiki.html">組 織</a>
+  <a href="kaikyu.html">階 級</a>
+</nav>
+
+<main>
+
+  <section>
+    <h2>帝國海軍 兵器一覽</h2>
+    <p>
+      帝國海軍ガ保有スル主砲・魚雷・爆雷其ノ他特殊兵器ノ諸元ヲ以下ニ掲載ス。
+      兵器ノ威力ト精度ハ海戰ノ勝敗ヲ決スル根幹ナリ。
+    </p>
+  </section>
+
+  <!-- ━━━ 種別索引 ━━━ -->
+  <section>
+    <h2>兵器種別索引</h2>
+    <div class="chinjufu-grid" id="weapon-type-nav">
+      <p>索引讀込中…</p>
+    </div>
+  </section>
+
+  <div id="weapons-container">
+    <section><p>兵器データ讀込中…</p></section>
+  </div>
+
+</main>
+
+<footer>
+  <div class="seal">⚓ 大日本帝國海軍省 廣報部 ⚓</div>
+  <div>Imperial Japanese Navy — Public Information Bureau</div>
+  <div style="margin-top:0.5rem;">1905年 發行</div>
+</footer>
+
+<script>
+(async function() {
+  try {
+    var res = await fetch('/api/weapons');
+    var data = await res.json();
+    var container = document.getElementById('weapons-container');
+    container.innerHTML = '';
+
+    // 種別ニ分類
+    var categories = {};
+    data.specialWeapons.forEach(function(w) {
+      if (!categories[w.weaponType]) categories[w.weaponType] = [];
+      categories[w.weaponType].push(w);
+    });
+
+    Object.keys(categories).forEach(function(type) {
+      var section = document.createElement('section');
+      section.id = 'wtype-' + type;
+      var h2 = document.createElement('h2');
+      h2.textContent = type;
+      section.appendChild(h2);
+
+      categories[type].forEach(function(w) {
+        var card = document.createElement('div');
+        card.className = 'ship-card';
+
+        var header = document.createElement('div');
+        header.className = 'ship-card-header';
+        header.textContent = w.designation + '「' + w.name + '」（' + w.nameReading + '）';
+
+        var body = document.createElement('div');
+        body.className = 'ship-card-body';
+        var dl = '<dl>';
+        dl += '<dt>種別</dt><dd>' + w.weaponType + '</dd>';
+        dl += '<dt>製造</dt><dd>' + w.manufacturer + '</dd>';
+        dl += '<dt>開發</dt><dd>' + w.developed + '</dd>';
+        dl += '<dt>諸元</dt><dd>' + w.specifications + '</dd>';
+        dl += '<dt>狀態</dt><dd>' + w.status + '</dd>';
+        if (w._comment) {
+          dl += '<dt>備考</dt><dd>' + w._comment + '</dd>';
+        }
+        dl += '</dl>';
+        body.innerHTML = dl;
+
+        card.appendChild(header);
+        card.appendChild(body);
+        section.appendChild(card);
+      });
+
+      container.appendChild(section);
+    });
+
+    // 種別索引ヲ生成
+    var navDiv = document.getElementById('weapon-type-nav');
+    navDiv.innerHTML = '';
+    Object.keys(categories).forEach(function(type) {
+      var a = document.createElement('a');
+      a.href = '#wtype-' + type;
+      a.className = 'chinjufu-card';
+      a.style.textDecoration = 'none';
+      a.style.color = 'inherit';
+      a.innerHTML = '<h4>' + type + '</h4><div class="desc">' + categories[type].length + ' 種</div>';
+      navDiv.appendChild(a);
+    });
+  } catch (e) {
+    console.warn('⚓ 兵器データノ取得ニ失敗セリ:', e);
+  }
+})();
+</script>
+
+</body>
+</html>

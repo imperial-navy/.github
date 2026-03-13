@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>航空機情報 — 大日本帝國海軍 廣報部</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="static-api.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>✈ 帝國海軍 航空機情報</h1>
+  <div class="subtitle">Imperial Japanese Navy — Aircraft Registry</div>
+</header>
+
+<nav>
+  <a href="index.html">總 覽</a>
+  <a href="kantei.html">艦 艇</a>
+  <a href="chinjufu.html">鎭守府</a>
+  <a href="senreki.html">戰 歷</a>
+  <a href="sentou-shouhou.html">戰鬪詳報</a>
+  <a href="koukuki.html" class="active">航空機</a>
+  <a href="heiki.html">兵 器</a>
+  <a href="hensei.html">編 制</a>
+  <a href="soshiki.html">組 織</a>
+  <a href="kaikyu.html">階 級</a>
+</nav>
+
+<main>
+
+  <section>
+    <h2>帝國海軍 航空機一覽</h2>
+    <p>
+      帝國海軍航空本部管轄ノ航空機ニ關スル要目ヲ以下ニ掲載ス。
+      制空權ノ確保ハ海戰ノ帰趨ヲ左右スル要件ニシテ、
+      帝國海軍航空隊ハ洋上作戰ノ主力タルベシ。
+    </p>
+  </section>
+
+  <!-- ━━━ 用途別索引 ━━━ -->
+  <section>
+    <h2>用途別索引</h2>
+    <div class="chinjufu-grid" id="aircraft-role-nav">
+      <p>索引讀込中…</p>
+    </div>
+  </section>
+
+  <div id="aircraft-container">
+    <section><p>航空機データ讀込中…</p></section>
+  </div>
+
+</main>
+
+<footer>
+  <div class="seal">⚓ 大日本帝國海軍省 廣報部 ⚓</div>
+  <div>Imperial Japanese Navy — Public Information Bureau</div>
+  <div style="margin-top:0.5rem;">1905年 發行</div>
+</footer>
+
+<script>
+(async function() {
+  try {
+    var res = await fetch('/api/aircraft');
+    var data = await res.json();
+    var container = document.getElementById('aircraft-container');
+    container.innerHTML = '';
+
+    // 用途別ニ分類
+    var categories = {};
+    data.aircraft.forEach(function(ac) {
+      if (!categories[ac.role]) categories[ac.role] = [];
+      categories[ac.role].push(ac);
+    });
+
+    Object.keys(categories).forEach(function(role) {
+      var section = document.createElement('section');
+      section.id = 'role-' + role;
+      var h2 = document.createElement('h2');
+      h2.textContent = role;
+      section.appendChild(h2);
+
+      categories[role].forEach(function(ac) {
+        var card = document.createElement('div');
+        card.className = 'ship-card';
+
+        var header = document.createElement('div');
+        header.className = 'ship-card-header';
+        header.textContent = ac.designation + '「' + ac.name + '」（' + ac.nameReading + '）';
+
+        var body = document.createElement('div');
+        body.className = 'ship-card-body';
+        var dl = '<dl>';
+        dl += '<dt>用途</dt><dd>' + ac.role + '</dd>';
+        dl += '<dt>製造</dt><dd>' + ac.manufacturer + '</dd>';
+        dl += '<dt>初飛行</dt><dd>' + ac.firstFlight + '</dd>';
+        dl += '<dt>速力</dt><dd>' + ac.speed + ' km/h</dd>';
+        dl += '<dt>航續距離</dt><dd>' + ac.range + ' km</dd>';
+        dl += '<dt>武裝</dt><dd>' + ac.armament + '</dd>';
+        dl += '<dt>乘員</dt><dd>' + ac.crew + ' 名</dd>';
+        dl += '<dt>狀態</dt><dd>' + ac.status + '</dd>';
+        if (ac._comment) {
+          dl += '<dt>備考</dt><dd>' + ac._comment + '</dd>';
+        }
+        dl += '</dl>';
+        body.innerHTML = dl;
+
+        card.appendChild(header);
+        card.appendChild(body);
+        section.appendChild(card);
+      });
+
+      container.appendChild(section);
+    });
+
+    // 用途別索引ヲ生成
+    var navDiv = document.getElementById('aircraft-role-nav');
+    navDiv.innerHTML = '';
+    Object.keys(categories).forEach(function(role) {
+      var a = document.createElement('a');
+      a.href = '#role-' + role;
+      a.className = 'chinjufu-card';
+      a.style.textDecoration = 'none';
+      a.style.color = 'inherit';
+      a.innerHTML = '<h4>' + role + '</h4><div class="desc">' + categories[role].length + ' 機種</div>';
+      navDiv.appendChild(a);
+    });
+  } catch (e) {
+    console.warn('⚓ 航空機データノ取得ニ失敗セリ:', e);
+  }
+})();
+</script>
+
+</body>
+</html>

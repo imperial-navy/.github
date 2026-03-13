@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>艦艇情報 — 大日本帝國海軍 廣報部</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="static-api.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>⚓ 帝國海軍 艦艇情報</h1>
+  <div class="subtitle">Imperial Japanese Navy — Warship Registry</div>
+</header>
+
+<nav>
+  <a href="index.html">總 覽</a>
+  <a href="kantei.html" class="active">艦 艇</a>
+  <a href="chinjufu.html">鎭守府</a>
+  <a href="senreki.html">戰 歷</a>
+  <a href="sentou-shouhou.html">戰鬪詳報</a>
+  <a href="koukuki.html">航空機</a>
+  <a href="heiki.html">兵 器</a>
+  <a href="hensei.html">編 制</a>
+  <a href="soshiki.html">組 織</a>
+  <a href="kaikyu.html">階 級</a>
+</nav>
+
+<main>
+
+  <section>
+    <h2>帝國海軍 主要艦艇一覽</h2>
+    <p>
+      帝國海軍ガ保有スル主要艦艇ノ要目及ビ經歷ヲ以下ニ掲載ス。
+      各艦ハ帝國ノ海防ノ柱石トシテ、皇國ノ威信ヲ内外ニ宣揚ス。
+    </p>
+  </section>
+
+  <!-- ━━━ 艦種別索引 ━━━ -->
+  <section>
+    <h2>艦種別索引</h2>
+    <div id="ship-type-nav" style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem 1.5rem;">
+      <p>索引讀込中…</p>
+    </div>
+  </section>
+
+  <div id="ships-container">
+    <section><p>艦艇データ讀込中…</p></section>
+  </div>
+
+  <!-- ━━━ 凡例 ━━━ -->
+  <section>
+    <h2>凡 例</h2>
+    <table>
+      <thead>
+        <tr><th>略號</th><th>意味</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>噸</td><td>排水噸數（英噸）</td></tr>
+        <tr><td>米</td><td>メートル</td></tr>
+        <tr><td>節</td><td>ノット（海里毎時）</td></tr>
+        <tr><td>糎</td><td>センチメートル</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  <div class="seal">⚓ 大日本帝國海軍省 廣報部 ⚓</div>
+  <div>Imperial Japanese Navy — Public Information Bureau</div>
+  <div style="margin-top:0.5rem;">1905年 發行</div>
+</footer>
+
+<script>
+(async function() {
+  try {
+    var res = await fetch('/api/ships');
+    var data = await res.json();
+    var container = document.getElementById('ships-container');
+    container.innerHTML = '';
+
+    // 艦種別ニ分類
+    var categories = {};
+    var categoryNames = {
+      '戰艦': '戰艦（Battleship）',
+      '巡洋戰艦': '巡洋戰艦（Battlecruiser）',
+      '裝甲巡洋艦': '裝甲巡洋艦（Armored Cruiser）',
+      '防護巡洋艦': '防護巡洋艦（Protected Cruiser）',
+      '重巡洋艦': '重巡洋艦（Heavy Cruiser）',
+      '輕巡洋艦': '輕巡洋艦（Light Cruiser）',
+      '航空母艦': '航空母艦（Aircraft Carrier）',
+      '驅逐艦': '驅逐艦（Destroyer）',
+      '潜水艦': '潜水艦（Submarine）',
+      '水雷艇': '水雷艇（Torpedo Boat）',
+      '砲艦': '砲艦（Gunboat）',
+      '通報艦': '通報艦（Dispatch Vessel）',
+      '海防艦': '海防艦（Coast Defense Ship）',
+      '水上機母艦': '水上機母艦（Seaplane Tender）',
+      '潜水母艦': '潜水母艦（Submarine Tender）',
+      '敷設艦': '敷設艦（Minelayer）'
+    };
+
+    // 表示順序（主力艦→巡洋艦→空母→驅逐艦→潜水艦→小型艦→補助艦）
+    var typeOrder = [
+      '戰艦', '巡洋戰艦', '裝甲巡洋艦', '防護巡洋艦',
+      '重巡洋艦', '輕巡洋艦', '航空母艦',
+      '驅逐艦', '潜水艦', '水雷艇', '砲艦', '通報艦',
+      '海防艦', '水上機母艦', '潜水母艦', '敷設艦'
+    ];
+
+    data.ships.forEach(function(ship) {
+      if (!categories[ship.shipType]) categories[ship.shipType] = [];
+      categories[ship.shipType].push(ship);
+    });
+
+    // 定義順でソートし、未定義の艦種は末尾
+    var sortedTypes = Object.keys(categories).sort(function(a, b) {
+      var ia = typeOrder.indexOf(a);
+      var ib = typeOrder.indexOf(b);
+      if (ia === -1) ia = 999;
+      if (ib === -1) ib = 999;
+      return ia - ib;
+    });
+
+    sortedTypes.forEach(function(type) {
+      var section = document.createElement('section');
+      section.id = 'type-' + type;
+      var title = categoryNames[type] || type;
+      var h2 = document.createElement('h2');
+      h2.textContent = title;
+      section.appendChild(h2);
+
+      categories[type].forEach(function(ship) {
+        var card = document.createElement('div');
+        card.className = 'ship-card';
+
+        var header = document.createElement('div');
+        header.className = 'ship-card-header';
+        header.textContent = ship.shipType + '「' + ship.name + '」（' + ship.nameReading + '）';
+        if (ship.status && ship.status.indexOf('旗艦') !== -1) {
+          header.innerHTML += ' <span class="stamp">' + ship.status + '</span>';
+        }
+
+        var body = document.createElement('div');
+        body.className = 'ship-card-body';
+        var dl = '<dl>';
+        dl += '<dt>艦種</dt><dd>' + ship.shipClass + '</dd>';
+        dl += '<dt>排水量</dt><dd>' + ship.displacement.toLocaleString() + ' 噸</dd>';
+        dl += '<dt>全長</dt><dd>' + ship.length + ' 米</dd>';
+        dl += '<dt>速力</dt><dd>' + ship.speed + ' 節</dd>';
+        dl += '<dt>主砲</dt><dd>' + ship.mainArmament + '</dd>';
+        dl += '<dt>副砲</dt><dd>' + ship.secondaryArmament + '</dd>';
+        dl += '<dt>建造所</dt><dd>' + ship.builder + '</dd>';
+        dl += '<dt>竣工</dt><dd>' + ship.commissioned + '</dd>';
+        if (ship._comment) {
+          dl += '<dt>備考</dt><dd>' + ship._comment + '</dd>';
+        }
+        dl += '</dl>';
+        body.innerHTML = dl;
+
+        card.appendChild(header);
+        card.appendChild(body);
+        section.appendChild(card);
+      });
+
+      container.appendChild(section);
+    });
+
+    // 艦種別索引ヲ生成
+    var navDiv = document.getElementById('ship-type-nav');
+    navDiv.innerHTML = '';
+    sortedTypes.forEach(function(type) {
+      var title = categoryNames[type] || type;
+      var count = categories[type].length;
+      var item = document.createElement('div');
+      item.style.cssText = 'display:flex;justify-content:space-between;align-items:baseline;padding:0.2rem 0;border-bottom:1px dotted rgba(139,115,85,0.3);';
+      item.innerHTML = '<a href="#type-' + type + '" style="color:var(--navy-blue);">' + title + '</a><span style="color:#666;font-size:0.85rem;white-space:nowrap;margin-left:0.5rem;">' + count + ' 隻</span>';
+      navDiv.appendChild(item);
+    });
+  } catch (e) {
+    console.warn('⚓ 艦艇データノ取得ニ失敗セリ:', e);
+  }
+})();
+</script>
+
+</body>
+</html>

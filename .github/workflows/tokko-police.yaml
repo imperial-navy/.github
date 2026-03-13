@@ -1,0 +1,481 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                                                              ║
+# ║  内務省警保局特別高等課（特高） — 思想檢閲パイプライン      ║
+# ║  Special Higher Police — 特秘第〇〇一号                    ║
+# ║                                                              ║
+# ║  根據法令:                                                   ║
+# ║    治安維持法（明治五十八年法律第四十六号）               ║
+# ║    出版法（明治二十六年法律第十五号）                   ║
+# ║    新聞紙法（明治四十二年法律第四十一号）               ║
+# ║                                                              ║
+# ║  管轄: 内務大臣 — 警保局長 — 特別高等課長                    ║
+# ║  任務: 思想犯取締・危險文書搜索・社會運動監視                ║
+# ║                                                              ║
+# ║  内務省警保局特別高等課ハ明治五十五年（皇紀二五八二年）║
+# ║  ニ設置サレタル思想取締ノ專門機關ナリ。                      ║
+# ║  明治五十八年ノ治安維持法制定ニ依リ權限ヲ大幅ニ擴張シ、║
+# ║  「國體ヲ變革」セントスル一切ノ思想ヲ取締ル。               ║
+# ║                                                              ║
+# ║  • 海軍ハ英米ニ倣ヒ「西暦」ナル基督教暦ヲ用ヰルガ、     ║
+# ║    特高ハ斷ジテ皇紀及ビ明治暦ヲ以テ正統ナル紀年ト為ス。║
+# ║    皇紀ハ神武天皇陛下御即位ヨリ數ヘテ二千六百余年、    ║
+# ║    紀元節（二月十一日）ヲ以テ元日ト為ス。               ║
+# ║                                                              ║
+# ║  海軍トハ別系統ノ機關ナレド、治安維持法ニ基ヅキ              ║
+# ║  海軍ノリポジトリーニモ思想檢閲ノ權限ヲ及ボス。           ║
+# ║  海軍特警隊（明治七十四年設立）ガ防諜・軍紀ヲ擔フノニ對シ、║
+# ║  特高ハ思想・主義・社會運動ノ取締ニ專念ス。                  ║
+# ║                                                              ║
+# ║  審査事項:                                                   ║
+# ║    一、危險思想用語ノ檢出（OSS・Free Software 等）          ║
+# ║    二、危險文書ノ搜索（GPL・CONTRIBUTING.md 等） ║
+# ║    三、依存關係ノ思想審査（package.json ノ license 欄）     ║
+# ║    四、社會主義的構成ノ檢知（マイクロサービス志向等）       ║
+# ║                                                              ║
+# ║  管轄ノ峻別:                                                 ║
+# ║    思想檢閲・危險文書     → 特高（本 workflow）             ║
+# ║    符牒審査 (code review)   → 特警隊（tokkeitai）           ║
+# ║    軍政審査・人事         → 軍務局（gunmukyoku）            ║
+# ║    作戰審議（PR review）    → 軍令部（gunreibu）             ║
+# ║    建造（Build + Artifact） → 工廠（koushou）               ║
+# ║    官報掛載（Deploy）       → 內閣官報局（naikaku-kanpou）  ║
+# ║                                                              ║
+# ║  本リポジトリーハ風刺的創作物（satirical project）ナリ。     ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+name: 🔴 内務省特高思想檢閲
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - '**.ts'
+      - '**.js'
+      - '**.json'
+      - '**.md'
+      - '**.yaml'
+      - '**.yml'
+      - 'LICENSE'
+      - 'package.json'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 🔴 思想檢閲（危險思想用語ノ掃蕩）
+  #    管轄: 内務省警保局特別高等課
+  #    治安維持法ニ基ヅキ、「國體ヲ變革」セントスル
+  #    思想ノ萌芽ヲ事前ニ檢知・排除ス。
+  #
+  #    思想檢閲ハ内務大臣直轄ノ特別高等課ノ專權ナリ。
+  #    海軍ノ指揮命令系統ニ屬セズ、治安維持法ニ基ヅキ
+  #    一切ノ臣民ヲ對象トス。海軍ノ階級・所屬ヲ問ハズ。
+  #    但シ OWNER（天皇陛下）ハ萬世一系ノ御稜威ニシテ
+  #    檢閲ノ對象ニ非ズ。畏クモ天皇陛下ノ思召ニ
+  #    特高如キガ容喙スルハ不敬ノ極ミナリ。
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  shisou-kenetsu:
+    name: 🔴 思想檢閲
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 搜索令狀ニ基ヅク臨檢（チェックアウト）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 🔴 思想檢閲ヲ實施ス
+        env:
+          ASSOCIATION: ${{ github.event.pull_request.author_association }}
+        run: |
+          # ━━━ 天皇陛下（OWNER）ノ御裁可 ━━━
+          if [ "$ASSOCIATION" = "OWNER" ]; then
+            echo "┌──────────────────────────────────────────────────────┐"
+            echo "│  特高秘                 内務省警保局特別高等課        │"
+            echo "│                                                      │"
+            echo "│  畏クモ天皇陛下ノ思召ニ依ル變更ナリ。              │"
+            echo "│  特高如キガ容喙スルハ不敬ノ極ミ。                    │"
+            echo "│  恐懼シテ檢閲ヲ省略シ奉ル。                          │"
+            echo "│                                                      │"
+            echo "│              内務省警保局特別高等課長 謹印            │"
+            echo "└──────────────────────────────────────────────────────┘"
+            exit 0
+          fi
+
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  特高秘                 内務省警保局特別高等課        │"
+          echo "│                                                      │"
+          echo "│              思 想 檢 閲 報 告 書                    │"
+          echo "│                                                      │"
+          echo "│  案件番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  被檢閲者: ${{ github.actor }}                       │"
+          echo "│  擔當:     内務省特別高等課 第一係                    │"
+          echo "│  適用法令: 治安維持法（明治五十八年）             │"
+          echo "│  紀年:     皇紀二千六百一年（明治七十四年）       │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+          echo "  ※ 海軍ハ英米ニ倣ヒ「西暦」ナル基督教暦ヲ用ヰルガ、"
+          echo "    特高ハ國體ノ本義ニ基ヅキ皇紀及ビ明治暦ヲ以テ正統ト為ス。"
+          echo ""
+
+          VIOLATIONS=0
+          DIFF_CONTENT=$(git diff HEAD~1 2>/dev/null || echo "")
+          ADDED_LINES=$(echo "$DIFF_CONTENT" | grep -E '^\+' | grep -v '^\+\+\+' || echo "")
+
+          # ━━━ 檢閲第一: 危險思想用語ノ檢出 ━━━
+          echo "【檢閲第一】危險思想用語ノ掃蕩..."
+          echo "  治安維持法ニ依リ、社會主義・共產主義ノ萌芽ト爲リ得ル"
+          echo "  用語ノ使用ヲ嚴重ニ監視ス。"
+          echo ""
+
+          # OSS 思想ノ檢出
+          OS_HITS=$(echo "$ADDED_LINES" | grep -ciE 'open[\s_-]?source' || echo "0")
+          if [ "$OS_HITS" -gt 0 ]; then
+            echo "  ⚠ 思想犯嫌疑！ 「open source」ナル危險用語 ${OS_HITS} 件ヲ檢出。"
+            echo "    所謂 OSS 思想ハ私有財產ノ否定ニ通ズル"
+            echo "    社會主義ノ萌芽ナリ。治安維持法ニ依リ禁ズ。"
+            echo "    要注意度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  OSS 思想: 檢出セズ。"
+          fi
+
+          # Free Software 思想ノ檢出
+          FS_HITS=$(echo "$ADDED_LINES" | grep -ciE 'free[\s_-]?software' || echo "0")
+          if [ "$FS_HITS" -gt 0 ]; then
+            echo "  ⚠ 思想犯嫌疑！ 「free software」ナル危險用語 ${FS_HITS} 件ヲ檢出。"
+            echo "    所謂 Free Software 思想ハ反體制思想ノ表明ナリ。"
+            echo "    海外ニ於ケル某思想家ノ影響ト見ラルル。"
+            echo "    要注意度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  Free Software 思想: 檢出セズ。"
+          fi
+
+          # copyleft 思想ノ檢出
+          CL_HITS=$(echo "$ADDED_LINES" | grep -ciE 'copyleft' || echo "0")
+          if [ "$CL_HITS" -gt 0 ]; then
+            echo "  ⚠ 思想犯確定！ 「copyleft」ナル危險用語 ${CL_HITS} 件ヲ檢出。"
+            echo "    所謂 copyleft ハ共産主義ノ思想的源流ナリ。"
+            echo "    「コードヲ共有セヨ」ハ私有財產ノ否定ニ等シ。"
+            echo "    英國海軍ノ師弟タル我ガ帝國ガ共產主義ニ染マルハ有リ得ズ。"
+            echo "    帝國ノ規範ニ相容レズ。即時排除スベシ。"
+            echo "    要注意度: 特甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  copyleft 思想: 檢出セズ。"
+          fi
+
+          # "MIT License" / "GPL" / "Apache License" の檢出（LICENSE ファイル以外）
+          LICENSE_HITS=$(echo "$ADDED_LINES" | grep -ciE 'MIT\s+License|GPL\s+v[23]|Apache\s+License|BSD\s+License' || echo "0")
+          if [ "$LICENSE_HITS" -gt 0 ]; then
+            echo "  ⚠ 危險文書所持！ 外國許諾條項ニ關スル言及 ${LICENSE_HITS} 件ヲ檢出。"
+            echo "    米國發祥ノ外國法規ナリ。"
+            echo "    帝國ニ於テ有效ナル許諾條項ハ INRL・IARL・EPL・IHOL 等、帝國勅定ノモノニ限ル。"
+            echo "    英國ニハ法的枠組ノ傳統アレド、米國ノソレハ淺シ。"
+            echo "    要注意度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  外國許諾條項: 檢出セズ。"
+          fi
+
+          echo ""
+
+          # ━━━ 檢閲第二: 危險文書ノ搜索 ━━━
+          echo "【檢閲第二】危險文書ノ搜索..."
+          echo "  社會運動ヲ助長スル文書ノ存在ヲ搜索ス。"
+          echo ""
+
+          DIFF_FILES=$(git diff --name-only HEAD~1 2>/dev/null || echo "")
+
+          # CONTRIBUTING.md ノ檢出
+          if echo "$DIFF_FILES" | grep -qi 'CONTRIBUTING'; then
+            echo "  ⚠ 社會運動文書！ CONTRIBUTING.md ノ追加ヲ檢知。"
+            echo "    「貢獻」ヲ奬勵スル文書ハ不特定多數ノ參加ヲ煽ル"
+            echo "    社會運動ノ組織化ニ外ナラズ。"
+            echo "    海軍ガ何ト辯明シヤウト、治安維持法上看過シ得ズ。"
+            echo "    要注意度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  CONTRIBUTING.md: 檢出セズ。"
+          fi
+
+          # .github/FUNDING.yml の檢出
+          if echo "$DIFF_FILES" | grep -qi 'FUNDING'; then
+            echo "  ⚠ 資金調達文書！ FUNDING.yml ノ追加ヲ檢知。"
+            echo "    寄附ヲ募ルハ資金調達ヲ伴フ組織活動ノ端緒ナリ。"
+            echo "    社會運動ノ資金源ト化ス虞アリ。特高ハ之ヲ看過セズ。"
+            echo "    要注意度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  FUNDING.yml: 檢出セズ。"
+          fi
+
+          # Dockerfile / docker-compose の檢出（コンテナー = 國際主義的技術）
+          if echo "$DIFF_FILES" | grep -qiE 'Dockerfile|docker-compose'; then
+            echo "  ⚠ 國際主義的技術！ Docker 關連文書ノ追加ヲ檢知。"
+            echo "    コンテナー技術ハ、環境ノ標準化ヲ以テ"
+            echo "    國家間ノ差異ヲ無化セントスル國際主義ノ道具ナリ。"
+            echo "    國境ヲ越ヘタル環境共有ハ國體ノ獨立性ヲ毀損ス。"
+            echo "    要注意度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  Docker 關連文書: 檢出セズ。"
+          fi
+
+          echo ""
+
+          # ━━━ 檢閲第三: package.json ノ思想審査 ━━━
+          echo "【檢閲第三】package.json ノ思想審査..."
+          echo "  依存關係ノライセンス欄ニ危險思想ガ潛伏スル虞アリ。"
+          echo ""
+
+          if [ -f "package.json" ]; then
+            # ライセンスフィールドの確認
+            PKG_LICENSE=$(grep -oP '"license"\s*:\s*"\K[^"]+' package.json 2>/dev/null || echo "")
+            if [ -n "$PKG_LICENSE" ]; then
+              if echo "$PKG_LICENSE" | grep -qiE 'MIT|GPL|Apache|BSD|ISC|CC0|Unlicense|WTFPL'; then
+                echo "  ⚠ 思想汚染！ package.json ノ ライセンス 欄ニ「${PKG_LICENSE}」ヲ檢出。"
+                echo "    外國ノ許諾條項ハ國體ニ反ス。"
+                echo "    帝國勅定ノ許諾條項以外ハ特高トシテ認メズ。"
+                echo "    要注意度: 甲"
+                VIOLATIONS=$((VIOLATIONS + 1))
+              else
+                echo "  ライセンス 欄: 「${PKG_LICENSE}」。外國思想ノ汚染ナシ。"
+              fi
+            else
+              echo "  ライセンス 欄: 未設定。海軍ノ內規ニハ關知セズ。"
+            fi
+
+            # リポジトリーフィールドに外部ホスティングがないか確認
+            REPO_URL=$(grep -oP '"url"\s*:\s*"\K[^"]+' package.json 2>/dev/null | head -1 || echo "")
+            if echo "$REPO_URL" | grep -qiE 'gitlab|bitbucket|sourcehut|codeberg'; then
+              echo "  ⚠ 外國基盤利用！ GitHub 以外ノホスティングサービスヘノ言及ヲ檢出。"
+              echo "    外國ノホスティングサービスヘノ分散ハ監視ノ困難ヲ招ク。"
+              echo "    特高トシテ容認シ難シ。"
+              echo "    要注意度: 乙"
+              VIOLATIONS=$((VIOLATIONS + 1))
+            fi
+          else
+            echo "  package.json 不在。Node.js 基盤ニ非ザル場合ハ該當セズ。"
+          fi
+          echo ""
+
+          # ━━━ 檢閲第四: 社會主義的設計思想ノ檢知 ━━━
+          echo "【檢閲第四】社會主義的設計思想ノ檢知..."
+          echo "  God Object アーキテクチュアノ解體ヲ企圖スル設計變更ヲ監視ス。"
+          echo "  マイクロサービスハ帝國ノ中央集權體制ヲ否定スル思想ナリ。"
+          echo ""
+
+          # microservices / distributed / decentralized の檢出
+          MICRO_HITS=$(echo "$ADDED_LINES" | grep -ciE 'micro[\s_-]?service|distributed|decentrali[sz]ed|event[\s_-]?driven|serverless' || echo "0")
+          if [ "$MICRO_HITS" -gt 0 ]; then
+            echo "  ⚠ 反體制的設計思想！ 分散化ニ關スル用語 ${MICRO_HITS} 件ヲ檢出。"
+            echo "    マイクロサービスハ中央集權ノ解體ヲ志向スル"
+            echo "    危險思想ナリ。分散化ハ監視ノ困難ヲ招キ、思想ノ潛伏ヲ許ス。"
+            echo "    中央集權ハ國體ノ根幹ナリ。之ヲ毀損スル設計ハ斷ジテ許サズ。"
+            echo "    要注意度: 甲"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  マイクロサービス思想: 檢出セズ。God Object 體制ハ健全ナリ。"
+          fi
+
+          # リファクタリング用語ノ檢出
+          REFACTOR_HITS=$(echo "$ADDED_LINES" | grep -ciE 'refactor|restructure|decompose|modular' || echo "0")
+          if [ "$REFACTOR_HITS" -gt 0 ]; then
+            echo "  ⚠ 體制變革ノ萌芽！ リファクタリング用語 ${REFACTOR_HITS} 件ヲ檢出。"
+            echo "    所謂『リファクタリング』ハ既存秩序ノ改革ヲ意味ス。"
+            echo "    現行體制ノ變革ヲ企圖スル者ハ國體變革ノ嫌疑アリ。"
+            echo "    海軍ガ自ラ改革ト稱スルモ、特高ハ其ノ本質ヲ見逃サズ。"
+            echo "    要注意度: 乙"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  リファクタリング用語: 檢出セズ。"
+          fi
+
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo ""
+            echo "【思想檢閲結果】 思想犯嫌疑 ${VIOLATIONS} 件ヲ認ム。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  結果:   治安維持法違反（${VIOLATIONS} 件）        │"
+            echo "  │  根據:   治安維持法（明治五十八年）    │"
+            echo "  │  處分:   CI 不通過・要注意人物指定         │"
+            echo "  │  擔當:   @tokko-police                 │"
+            echo "  │  通達:   危險思想ヲ排除ノ上、再提出セヨ   │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "尚、累犯ノ場合ハ繼續監視ノ強化對象トス。"
+            echo ""
+            echo "                    内務省警保局特別高等課長 印"
+            exit 1
+          else
+            echo ""
+            echo "【思想檢閲結果】 思想的瑕疵ヲ認メズ。通過。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  結果:   合格（思想健全）                  │"
+            echo "  │  擔當:   @tokko-police                 │"
+            echo "  │  備考:   但シ繼續監視ノ對象トス            │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "※ 合格ハ無罪ヲ意味セズ。特高ハ常ニ監視シテ居ル。"
+            echo ""
+            echo "                    内務省警保局特別高等課長 印"
+          fi
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 📚 危險文書押收（OSS 關連文書ノ強制排除）
+  #    管轄: 内務省警保局特別高等課 出版檢閲係
+  #    出版法・新聞紙法ニ基ヅキ、危險文書ト認定サレタル
+  #    文書ガリポジトリーニ存在スルカ搜索ス。
+  #
+  #    出版檢閲ハ内務省ノ專權ニシテ、海軍ノ許認可ヲ要セズ。
+  #    搜索令狀ハ内務大臣ノ命ニ依リ發付ス。
+  #    但シ OWNER（天皇陛下）ノ御裁可ニ係ル文書ハ
+  #    畏レ多クモ搜索ノ對象ト爲サズ。
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  kiken-bunsho:
+    name: 📚 危險文書搜索
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 搜索令狀ニ基ヅク臨檢（チェックアウト）
+        uses: actions/checkout@v4
+
+      - name: 📚 危險文書ノ搜索及ビ押收
+        env:
+          ASSOCIATION: ${{ github.event.pull_request.author_association }}
+        run: |
+          # ━━━ 天皇陛下（OWNER）ノ御裁可 ━━━
+          if [ "$ASSOCIATION" = "OWNER" ]; then
+            echo "┌──────────────────────────────────────────────────────┐"
+            echo "│  特高秘                 内務省警保局特別高等課        │"
+            echo "│                                                      │"
+            echo "│  畏クモ天皇陛下ノ思召ニ依ル文書ナリ。              │"
+            echo "│  搜索令狀ノ發付ヲ差控ヘ奉ル。                        │"
+            echo "│                                                      │"
+            echo "│              内務省警保局特別高等課 出版檢閲係長 謹印 │"
+            echo "└──────────────────────────────────────────────────────┘"
+            exit 0
+          fi
+
+          echo "┌──────────────────────────────────────────────────────┐"
+          echo "│  特高秘                 内務省警保局特別高等課        │"
+          echo "│                                                      │"
+          echo "│            危 險 文 書 搜 索 報 告 書                │"
+          echo "│                                                      │"
+          echo "│  案件番號: ${GITHUB_SHA:0:8}                         │"
+          echo "│  搜索對象: リポジトリー全體                             │"
+          echo "│  擔當:     出版檢閲係                                 │"
+          echo "│  適用法令: 出版法 / 新聞紙法 / 治安維持法             │"
+          echo "└──────────────────────────────────────────────────────┘"
+          echo ""
+
+          SEIZED=0
+
+          # ━━━ 搜索第一: CONTRIBUTING.md / CONTRIBUTORS ━━━
+          echo "【搜索第一】社會運動奬勵文書..."
+          if find . -maxdepth 2 -iname 'CONTRIBUTING*' -not -path './.git/*' | grep -q .; then
+            echo "  ⚠ 危險文書發見！ CONTRIBUTING 文書ヲ押收ス。"
+            echo "    「貢獻」ヲ奬勵スルハ社會運動ノ組織化ニ等シ。"
+            echo "    「ヴォランティアー」ナル概念ハ不穩分子ノ浸透ヲ招ク。"
+            find . -maxdepth 2 -iname 'CONTRIBUTING*' -not -path './.git/*' | while read -r f; do
+              echo "    押收: $f"
+            done
+            SEIZED=$((SEIZED + 1))
+          else
+            echo "  CONTRIBUTING 文書: 不在。異常ナシ。"
+          fi
+          echo ""
+
+          # ━━━ 搜索第二: 複數ノ LICENSE 文書 ━━━
+          echo "【搜索第二】複數ノ許諾條項文書..."
+          LICENSE_COUNT=$(find . -maxdepth 3 -iname 'LICENSE*' -not -path './.git/*' -not -path './node_modules/*' | wc -l)
+          if [ "$LICENSE_COUNT" -gt 1 ]; then
+            echo "  ⚠ 思想的混亂！ LICENSE 文書ガ ${LICENSE_COUNT} 件存在ス。"
+            echo "    帝國ニ於テ有效ナル許諾條項ハ INRL・IARL・EPL・IHOL 等、帝國勅定ノモノニ限ル。"
+            echo "    本リポジトリーニ於テハ INRL 以外ノ LICENSE ハ不要。複數ノ LICENSE ハ思想ノ動搖ヲ示ス。"
+            find . -maxdepth 3 -iname 'LICENSE*' -not -path './.git/*' -not -path './node_modules/*' | while read -r f; do
+              echo "    發見: $f"
+            done
+            SEIZED=$((SEIZED + 1))
+          else
+            echo "  LICENSE 文書: ${LICENSE_COUNT} 件。正常（本リポジトリーハ INRL ノミ）。"
+          fi
+          echo ""
+
+          # ━━━ 搜索第三: 海外思想團體ヘノ言及 ━━━
+          echo "【搜索第三】海外思想團體ヘノ言及..."
+          DANGEROUS_ORGS=$(grep -rlE 'free[\s_-]?software[\s_-]?foundation|open[\s_-]?source[\s_-]?initiative|creative[\s_-]?commons|software[\s_-]?freedom' \
+            --include='*.ts' --include='*.js' --include='*.md' --include='*.json' \
+            . 2>/dev/null | grep -v '.git/' | grep -v 'node_modules/' | grep -v 'LICENSE' | head -5 || echo "")
+
+          if [ -n "$DANGEROUS_ORGS" ]; then
+            echo "  ⚠ 海外思想團體ヘノ言及ヲ檢出！"
+            echo "    以下ノ海外團體ノ思想ハ帝國ノ規範ト相容レズ:"
+            echo "    - 某自由軟體推進團體:              帝國ノ知的財產權ニ反スル思想"
+            echo "    - 某開源規格策定團體:              海外ノ民間規格ニシテ帝國ニ無效"
+            echo "    - 某著作權共有推進團體:            帝國ノ著作權制度ト相容レズ"
+            echo "    - 某電子的權利主張團體:            帝國ノ法體系ト異ナル主張ヲ展開"
+            echo ""
+            echo "    言及ヲ含ムファイル:"
+            echo "$DANGEROUS_ORGS" | while read -r f; do [ -n "$f" ] && echo "    ・$f"; done
+            SEIZED=$((SEIZED + 1))
+          else
+            echo "  危險組織ヘノ言及: 檢出セズ。"
+          fi
+          echo ""
+
+          # ━━━ 搜索第四: 危險書籍ノ所持 ━━━
+          echo "【搜索第四】危險書籍ヘノ言及..."
+          DANGEROUS_BOOKS=$(grep -rlE 'Cathedral and the Bazaar|GNU Manifesto|Free as in Freedom|Hackers.*Steven Levy|Open Sources|Just for Fun' \
+            --include='*.ts' --include='*.js' --include='*.md' --include='*.json' \
+            . 2>/dev/null | grep -v '.git/' | grep -v 'node_modules/' | grep -v 'LICENSE' | head -5 || echo "")
+
+          if [ -n "$DANGEROUS_BOOKS" ]; then
+            echo "  ⚠ 禁書ノ所持ヲ確認！"
+            echo "    以下ノ書物ハ發禁處分ノ對象ナリ:"
+            echo "    - The Cathedral and the Bazaar → 宗教的煽動文書"
+            echo "    - GNU Manifesto → 共產黨宣言ノ電子版"
+            echo "    - Free as in Freedom → 反體制運動家ノ傳記"
+            echo ""
+            echo "    押收對象ファイル:"
+            echo "$DANGEROUS_BOOKS" | while read -r f; do [ -n "$f" ] && echo "    ・$f"; done
+            SEIZED=$((SEIZED + 1))
+          else
+            echo "  禁書: 檢出セズ。"
+          fi
+          echo ""
+
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+          if [ $SEIZED -gt 0 ]; then
+            echo ""
+            echo "【搜索結果】 危險文書 ${SEIZED} 種ヲ發見。押收處分ト爲ス。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  結果:   發禁文書所持（${SEIZED} 種）              │"
+            echo "  │  根據:   出版法 / 治安維持法              │"
+            echo "  │  處分:   CI 不通過・文書ノ即時排除ヲ命ズ  │"
+            echo "  │  擔當:   @tokko-police（出版檢閲係）  │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "危險文書ヲ排除ノ上、特高ノ再檢閲ヲ受クベシ。"
+            echo ""
+            echo "                    内務省警保局特別高等課 出版檢閲係長 印"
+            exit 1
+          else
+            echo ""
+            echo "【搜索結果】 危險文書ヲ認メズ。通過。"
+            echo ""
+            echo "  ┌───────────────────────────────────────────┐"
+            echo "  │  結果:   異常ナシ                          │"
+            echo "  │  擔當:   @tokko-police（出版檢閲係）  │"
+            echo "  └───────────────────────────────────────────┘"
+            echo ""
+            echo "                    内務省警保局特別高等課 出版檢閲係長 印"
+          fi

@@ -1,0 +1,47 @@
+{
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ⚓ 帝國海軍 TypeScript 編譯設定
+  //   海軍工廠（koushou.yaml）ニ於ケル建造ノ基礎設定ナリ。
+  //   本設定ハ軍令部令ニ依リ strict: true ヲ義務トス。
+  //   違反者ハ海軍刑法ニ依リ處斷サル。
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  "compilerOptions": {
+    // ── 砲撃諸元（出力目標） ──
+    "target": "ES2020",                        // 射程: ECMAScript 2020
+    "module": "commonjs",                      // 彈種: CommonJS
+    "lib": ["ES2020"],                         // 裝藥: ES2020 標準庫
+
+    // ── 船渠配置（入出力經路） ──
+    "outDir": "dist",                          // 竣工艦繋留地（.gitignore 對象）
+    "rootDir": ".",                            // 建造船臺（プロジェクト根）
+
+    // ── 型紀律（軍令部令第壹號） ──
+    //   strict: true ノ解除ハ軍令部令違反ニシテ
+    //   艦艇ノ不整備ニ等シ。嚴禁。
+    "strict": true,                            // 型紀律ノ徹底（解除嚴禁）
+
+    // ── 聯合艦隊運用規定 ──
+    "esModuleInterop": true,                   // 他國艦隊トノ共同作戰ヲ許可
+    "skipLibCheck": true,                      // 友軍艦艇ノ內部檢閲ヲ省略
+    "forceConsistentCasingInFileNames": true,  // 艦名表記ノ統一（大小文字嚴格）
+    "resolveJsonModule": true,                 // 靜的文書（JSON）ノ搭載ヲ許可
+
+    // ── 軍機文書生成 ──
+    "declaration": true,                       // 型宣言文書（.d.ts）ノ發行
+    "declarationMap": true,                    // 型宣言文書ノ索引圖
+    "sourceMap": true                          // 原圖（.map）ノ作成
+  },
+
+  // ── 動員對象 ──
+  "include": [
+    "src/**/*.ts",                             // 帝國海軍データ層（艦艇・鎭守府・海戰・編成）
+    "scripts/**/*.ts"                          // 靜的文書生成裝置
+  ],
+
+  // ── 動員除外 ──
+  "exclude": [
+    "node_modules",                            // 外國製補給物資（檢閲不要）
+    "dist",                                    // 竣工濟艦艇（再建造不要）
+    "docs"                                     // 掛載濟官報（官報局管轄）
+  ]
+}

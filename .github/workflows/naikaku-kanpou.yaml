@@ -1,0 +1,155 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                                                              ║
+# ║  內閣官報局 — 官報掛載 pipeline                              ║
+# ║  Cabinet Official Gazette Bureau — 官報第〇〇一号           ║
+# ║                                                              ║
+# ║  內閣官報局ハ明治十六年七月ニ太政官文書局ヲ改組シテ       ║
+# ║  設置サレタル內閣直屬ノ公文書管理機關ナリ。                  ║
+# ║  法令・條約・敕令・省令等ヲ官報ニ掛載シ、                    ║
+# ║  廣ク臣民ニ公布スル任ヲ擔フ。                               ║
+# ║                                                              ║
+# ║  根據法令:                                                   ║
+# ║    官報發行ニ關スル件（明治十六年太政官達第二十七号）     ║
+# ║    印刷局官制（明治三十年勅令）                           ║
+# ║    大日本帝國憲法 第三十七條（臣民ノ權利義務ハ法律ニテ定ム） ║
+# ║                                                              ║
+# ║  管轄: 內閣總理大臣 — 內閣官報局長                           ║
+# ║  任務: 法令・省令等ノ官報掛載（Deploy to GitHub Pages）    ║
+# ║                                                              ║
+# ║  官報掛載ハ內閣總理大臣所管ノ文官ノ專權ナリ。            ║
+# ║  海軍工廠ノ建造完了（workflow_run）ヲ受ケ自動執行      ║
+# ║  サレルホカ、內閣總理大臣ノ權限ニ依リ                  ║
+# ║  workflow_dispatch ニテ手動執行モ可能ナリ。              ║
+# ║                                                              ║
+# ║  海軍工廠（koushou.yaml）ガ建造（Build + Artifact Upload） ║
+# ║  ヲ擔フノニ對シ、內閣官報局ハ竣工セシ成果物ヲ               ║
+# ║  官報（GitHub Pages）ニ掛載シ、廣ク內外ニ公布ス。           ║
+# ║                                                              ║
+# ║  管轄ノ峻別:                                                 ║
+# ║    官報掛載（Deploy）       → 內閣官報局（本 workflow）     ║
+# ║    建造（Build + Artifact） → 海軍工廠（koushou）           ║
+# ║    軍政審査・人事         → 軍務局（gunmukyoku）            ║
+# ║    作戰審議（PR review）    → 軍令部（gunreibu）             ║
+# ║    符牒審査 (code review)   → 特警隊（tokkeitai）           ║
+# ║    思想檢閲                 → 特高（tokko-police）           ║
+# ║                                                              ║
+# ║  ※ 內閣官報局ハ天皇陛下ノ輔弼機關タル內閣ニ屬ス。         ║
+# ║    海軍ノ統帥系統ニハ屬セズ、然レドモ法令ノ公布ハ          ║
+# ║    內閣ノ專管事項ナリ。海軍省令ト雖モ官報ニ掛載         ║
+# ║    セザレバ效力ヲ生ゼズ。                                   ║
+# ║                                                              ║
+# ║  本 Repository ハ風刺的創作物（satirical project）ナリ。     ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+name: 📜 內閣官報局官報掛載
+
+on:
+  # 海軍工廠（koushou.yaml）ノ建造完了ヲ待チテ掛載ス
+  workflow_run:
+    workflows: ["🔨 海軍工廠建造報告"]
+    types: [completed]
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: naikaku-kanpou
+  cancel-in-progress: true
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 📜 官報掛載（Deploy to GitHub Pages）
+  #    管轄: 內閣官報局（內閣總理大臣所管）
+  #    海軍工廠ガ建造・進水セシメタル成果物ヲ
+  #    官報（GitHub Pages）ニ掛載シ、臣民ニ公布ス。
+  #    法令ノ公布ハ內閣ノ專管事項ナリ。
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  kanpou-keisai:
+    name: 📜 官報掛載
+    runs-on: ubuntu-latest
+    # 海軍工廠ノ建造ガ成功シタ場合ノミ掛載ス
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: 📜 內閣官報局 — 掛載準備
+        run: |
+          echo "╔══════════════════════════════════════════════════════════╗"
+          echo "║  📜 內閣官報局 — 官報掛載準備                           ║"
+          echo "║                                                          ║"
+          echo "║  掛載日:     $(TZ=Asia/Tokyo date '+%Y年%m月%d日')       ║"
+          echo "║  掛載事由:   海軍工廠建造完了ニ伴フ官報掛載             ║"
+          echo "║  管轄:       內閣官報局長                                ║"
+          echo "║                                                          ║"
+          echo "║  海軍工廠ヨリ進水セシメラレタル成果物ヲ                  ║"
+          echo "║  官報（GitHub Pages）ニ掛載シ、臣民ニ公布ス。           ║"
+          echo "║                                                          ║"
+          echo "║  ※ 法令ノ公布ハ內閣ノ專管事項ナリ。                    ║"
+          echo "║    海軍省令ト雖モ官報ニ掛載セザレバ效力ヲ生ゼズ。       ║"
+          echo "╚══════════════════════════════════════════════════════════╝"
+
+      - name: 📥 御眞影ノチェックアウト
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Node.js 環境ノ整備
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 依存關係ノ調達
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "【內閣官報局】掛載用依存 package ヲ調達ス"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          npm ci
+
+      - name: 🔨 成果物ノ再謄寫（Build）
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "【內閣官報局】成果物ヲ再謄寫ス"
+          echo "  工程壱: tsc — TypeScript → JavaScript"
+          echo "  工程弐: generate-static-json — 靜的 JSON 生成"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          npm run build
+
+      - name: 📜 GitHub Pages 官報設定
+        uses: actions/configure-pages@v5
+
+      - name: 📤 成果物ヲ奉呈ス（Upload Artifact）
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs'
+
+      - name: 📜 官報ニ掛載ス（Deploy to Pages）
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: 📜 官報掛載報告
+        run: |
+          echo "╔══════════════════════════════════════════════════════════╗"
+          echo "║  📜 內閣官報局 — 官報掛載報告                           ║"
+          echo "║                                                          ║"
+          echo "║  掛載日:     $(TZ=Asia/Tokyo date '+%Y年%m月%d日')       ║"
+          echo "║  掛載先:     GitHub Pages（官報）                        ║"
+          echo "║  掛載URL:    ${{ steps.deployment.outputs.page_url }}    ║"
+          echo "║                                                          ║"
+          echo "║  海軍工廠ニ於テ建造サレタル廣報頁面ヲ                    ║"
+          echo "║  官報ニ掛載シ、廣ク內外ニ公布セリ。                      ║"
+          echo "║                                                          ║"
+          echo "║  📜 掛載頁面一覽:                                        ║"
+          echo "║    總覽 / 艦艇情報 / 鎭守府情報 / 戰歷 / 戰鬪詳報      ║"
+          echo "║                                                          ║"
+          echo "║  法令ノ公布ハ內閣ノ專管事項ナリ。                        ║"
+          echo "║  海軍省令ト雖モ官報ニ掛載サレテ初メテ效力ヲ生ズ。       ║"
+          echo "║                                                          ║"
+          echo "║  內閣官報局長、以上ヲ以テ掛載完了ヲ內閣總理大臣ニ    ║"
+          echo "║  復命申上ゲ奉ル。                                          ║"
+          echo "╚══════════════════════════════════════════════════════════╝"
